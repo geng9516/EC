@@ -6,17 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.User_login;
-import com.example.demo.repository.User_loginRepository;
+import com.example.demo.entity.UserLogin;
+import com.example.demo.repository.UserLoginRepository;
 
 @Service
 @Transactional
-public class User_loginService {
+public class UserLoginService {
 
 	@Autowired
-	User_loginRepository user_loginRepository;
+	UserLoginRepository loginRepository;
 
-	public List<User_login> findUser_login() {
-		return user_loginRepository.findAll();
+	public List<UserLogin> findUser_login() {
+		return loginRepository.findAll();
 	}
 }

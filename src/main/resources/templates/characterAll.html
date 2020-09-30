@@ -30,15 +30,16 @@
 					<td align="center"><input type="submit" value="検索"></td>
 				</tr>
 			</form>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr th:each="character:${characterList}">
+				<td th:text="${character.character_name}"></td>
+				<td th:text="${character.statusbycharacter}"></td>
+				<td th:text="${character.date_created}"></td>
+				<td th:text="${character.date_modified}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br/>
-					<span><a th:href="@{characterEdit}"><input type="button" value="編集"></a></span><br/>
-					<span><input type="button" value="削除"></span>
+					<span><a th:href="@{characterEdit(character_name=${character.character_name})}"><input type="button" value="編集"></a></span><br/>
+					<span><a th:href="@{characterDelete(character_name=${character.character_name})}"><input type="button" value="削除"></a></span>
+					<!-- <span><input type="button" value="削除"></span> -->
 				</td>
 			</tr>
 		</table>

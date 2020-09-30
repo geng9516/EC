@@ -18,7 +18,21 @@ public class CharacterService {
 	CharacterRepository characterRepository;
 
 	public List<Characters> findAllCharacter(){
-
 		return characterRepository.findAll();
+	}
+
+	public String deleteCharacterById(String character_name) {
+		characterRepository.deleteById(character_name);
+		return "成功";
+	}
+
+	public String saveCharacter(Characters character) {
+		characterRepository.save(character);
+		return "";
+	}
+
+	public String editChatacter(Characters character) {
+		characterRepository.save(character);
+		return "";
 	}
 }

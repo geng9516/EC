@@ -8,4 +8,5 @@ import com.example.demo.entity.Characters;
 @Repository
 public interface CharacterRepository extends JpaRepository<Characters,String>{
 
+
 }

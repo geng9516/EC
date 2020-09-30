@@ -3,9 +3,9 @@ package com.example.demo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.Character_login;
+import com.example.demo.entity.ControlLogin;
 
 @Repository
-public interface Character_loginRepository extends JpaRepository<Character_login,Integer> {
+public interface ControlLoginRepository extends JpaRepository<ControlLogin,Integer> {
 
 }
