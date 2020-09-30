@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">商品一覧</h2>
+		<table align="center" border="1px">
+			<tr>
+				<th>商品ID</th>
+				<th>商品タイプ</th>
+				<th>商品情報</th>
+				<th>売価</th>
+				<th>原価</th>
+				<th>在庫</th>
+				<th>アクセス回数</th>
+				<th>登録時間</th>
+				<th>更新時間</th>
+				<th>操作</th>
+			</tr>
+			<form action="" method="get">
+				<tr>
+					<td><input type="text" name="productid" placeholder="商品ID"></td>
+					<td><input type="text" name="productid" placeholder="商品タイプ"></td>
+					<!-- 消費の写真とリンクを<a></a>タグで挿入 -->
+					<td><input type="text" name="product_intro" placeholder="商品情報"></td>
+					<td><input type="text" name="sales" placeholder="売価"></td>
+					<td><input type="text" name="cost" placeholder="原価"></td>
+					<td><input type="text" name="stock" placeholder="在庫"></td>
+					<td><input type="text" name="Access_number" placeholder="アクセス回数"></td>
+					<td></td>
+					<td></td>
+					<td align="center"><input type="submit" value="検索"></td>
+				</tr>
+			</form>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td align="center">
+					<span><input type="submit" value="詳細"></span><br />
+					<span><a th:href="@{productEdit}"><input type="button" value="編集"></a></span><br />
+					<span><input type="button" value="削除"></span>
+				</td>
+			</tr>
+		</table>
+		<div align="center">
+			<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<a th:href="@{productAdd}"><input type="button" value="新規追加"></a>
+		</div>
+	</body>
+</html>

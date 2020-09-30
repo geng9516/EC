@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">ユーザー一覧</h2>
+		<table align="center" border="1px">
+			<tr>
+				<th>ユーザーID</th>
+				<th>写真</th>
+				<th>ユーザー名</th>
+				<th>ニックネーム</th>
+				<th>電話番号</th>
+				<th>メールアドレス</th>
+				<th>性別</th>
+				<th>状態</th>
+				<th>住所</th>
+				<th>誕生日</th>
+				<th>登録時間</th>
+				<th>更新時間</th>
+				<th>操作</th>
+			</tr>
+			<form>
+				<tr>
+					<td><input type="text" name="userid" placeholder="ユーザーID"> </td>
+					<td></td>
+					<td><input type="text" name="username" placeholder="ユーザー名"></td>
+					<td><input type="text" name="nickname" placeholder="ニックネーム"></td>
+					<td><input type="text" name="tel" placeholder="電話番号"></td>
+					<td><input type="email" name="email" placeholder="メールアドレス"></td>
+					<td>
+						<select name="sex">
+							<option>選択...</option>
+							<option>女</option>
+							<option>男</option>
+						</select>
+					</td>
+					<td>
+						<!-- 状態 -->
+						<select name="status">
+							<option>選択...</option>
+							<option>普通</option>
+							<option>ログイン禁止</option>
+						</select></td>
+					<td><input type="text" name="address" placeholder="住所"></td>
+					<td><input type="date" name="birth"></td>
+					<td></td>
+					<td></td>
+					<td align="center" ><input type="submit" value="検索"></td>
+				</tr>
+			</form>
+			<tr>
+				<td></td>
+				<!-- 写真　<a></a> -->
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td align="center">
+					<span><input type="submit" value="詳細"></span><br/>
+					<span><a th:href="@{userEdit}"><input type="button" value="編集"></a></span><br/>
+					<span><input type="button" value="削除"></span>
+				</td>
+			</tr>
+		</table>
+		<div align="center">
+			<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<a th:href="@{userAdd}"><input type="button" value="新規追加"></a>
+		</div>
+	</body>
+</html>

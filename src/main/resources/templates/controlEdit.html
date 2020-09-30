@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">管理者編集</h2>
+		<form>
+			<table align="center" border="1px">
+				<tr>
+					<td>ユーザー名</td>
+					<td><input type="text" disabled></td>
+				</tr>
+				<tr>
+					<td>パスワード</td>
+					<td><input type="password" name="password"></td>
+				</tr>
+				<tr>
+					<td>確認パスワード</td>
+					<td><input type="password"></td>
+				</tr>
+				<tr>
+					<td>性別</td>
+					<td>
+						<input type="radio" name="sex">男
+						<input type="radio" name="sex">女
+						<input type="radio" name="sex">秘密
+					</td>
+				</tr>
+				<tr>
+					<td>状態</td>
+					<td>
+						<select name="status">
+							<option>選択...</option>
+							<option>在職中</option>
+							<option>退職</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<a th:href="@{backControlAll}"><input type="button" value="戻る"></a>
+						<input type="submit" value="保存">
+						<input type="reset" value="リセット">
+					</td>
+				</tr>
+
+			</table>
+		</form>
+	</body>
+</html>

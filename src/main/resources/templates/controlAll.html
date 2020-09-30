@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">管理者一覧</h2>
+		<table align="center" border="1px">
+			<tr>
+				<th>管理者名</th>
+				<th>状態</th>
+				<th>権限</th>
+				<th>性別</th>
+				<th>電話番号</th>
+				<th>ログイン回数</th>
+				<th>最終ログイン</th>
+				<th>作成時間</th>
+				<th>操作</th>
+			</tr>
+			<form>
+				<tr>
+					<td><input type="text" name="controlname" placeholder="管理者名"></td>
+					<td>
+						<!-- 状態 -->
+						<select name="status">
+							<option>選択...</option>
+							<option>在職中</option>
+							<option>退職</option>
+						</select>
+					</td>
+					<td>
+						<!-- 権限 -->
+						<select name="authority">
+							<option>選択...</option>
+							<option>root</option>
+							<option>普通ユーザー</option>
+						</select>
+					</td>
+					<td>
+						<select name="sex">
+							<option>選択...</option>
+							<option>女</option>
+							<option>男</option>
+						</select>
+					</td>
+					<td><input type="text" name="tel"></td>
+					<td><input type="text" name="login_times"></td>
+					<td></td>
+					<td></td>
+					<td align="center"><input type="submit" value="検索"></td>
+				</tr>
+			</form>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td align="center">
+					<span><input type="submit" value="詳細"></span><br/>
+					<span><a th:href="@{controlEdit}"><input type="button" value="編集"></a></span><br/>
+					<span><input type="button" value="削除"></span>
+				</td>
+			</tr>
+		</table>
+		<div align="center">
+			<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<a th:href="@{controlAdd}"><input type="button" value="新規追加"></a>
+		</div>
+	</body>
+</html>

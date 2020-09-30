@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">権限一覧</h2>
+		<table align="center" border="1px">
+			<tr>
+				<th>権限名</th>
+				<th>使用状態</th>
+				<th>作成時間</th>
+				<th>更新日時</th>
+				<th>操作</th>
+			</tr>
+			<form>
+				<tr>
+					<td><input type="text" name="charactername" placeholder="権限名"></td>
+					<td>
+						<!-- 状態 -->
+						<select name="status">
+							<option>選択...</option>
+							<option>使用中</option>
+							<option>使用停止</option>
+						</select>
+					</td>
+					<td></td>
+					<td></td>
+					<td align="center"><input type="submit" value="検索"></td>
+				</tr>
+			</form>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td align="center">
+					<span><input type="submit" value="詳細"></span><br/>
+					<span><a th:href="@{characterEdit}"><input type="button" value="編集"></a></span><br/>
+					<span><input type="button" value="削除"></span>
+				</td>
+			</tr>
+		</table>
+		<div align="center">
+			<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<a th:href="@{characterAdd}"><input type="button" value="新規追加"></a>
+		</div>
+	</body>
+</html>

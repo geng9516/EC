@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">ユーザー登録</h2>
+		<form>
+			<table align="center" border="1px">
+				<tr>
+					<td>写真選択</td>
+					<td><input type="file" name="photo" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png"></td>
+				</tr>
+				<tr>
+					<td>ユーザー名</td>
+					<td><input type="text" name="username"></td>
+				</tr>
+				<tr>
+					<td>ニックネーム</td>
+					<td><input type="text" name="nickname"></td>
+				</tr>
+				<tr>
+					<td>電話番号</td>
+					<td><input type="text" name="tel"></td>
+				</tr>
+				<tr>
+					<td>メールアドレス</td>
+					<td><input type="email" name="email"></td>
+				</tr>
+				<tr>
+					<td>性別</td>
+					<td>
+						<input type="radio" name="sex">男
+						<input type="radio" name="sex">女
+					</td>
+				</tr>
+				<tr>
+					<td>住所</td>
+					<td><input type="text" name="address"></td>
+				</tr>
+				<tr>
+					<td>誕生日</td>
+					<td><input type="date" name="birth"></td>
+				</tr>
+				<tr>
+					<td>パスワード</td>
+					<td><input type="password" name="password"></td>
+				</tr>
+				<tr>
+					<td>パスワード確認</td>
+					<td><input type="password" ></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<a th:href="@{backUserAll}"><input type="button" value="戻る"></a>
+						<input type="submit" value="保存">
+						<input type="reset" value="リセット">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

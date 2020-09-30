@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h2 align="center">管理者登録</h2>
+		<form>
+			<table align="center" border="1px">
+				<tr>
+					<td>管理者名</td>
+					<td><input type="text" name="controlname"></td>
+				</tr>
+				<tr>
+					<td>状態</td>
+					<td><input type="text" name="status" value="在職中" readonly></td>
+				</tr>
+				<tr>
+					<td>権限タイプ</td>
+					<!-- 自動的に変更できるようにする -->
+					<td><input type="text" name="charactername"></td>
+				</tr>
+				<tr>
+					<td>性別</td>
+					<td>
+						<input type="radio" name="sex">男
+						<input type="radio" name="sex">女
+					</td>
+				</tr>
+				<tr>
+					<td>電話番号</td>
+					<td><input type="text" name="tel"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<a th:href="@{backControlAll}"><input type="button" value="戻る"></a>
+						<input type="submit" value="保存">
+						<input type="reset" value="リセット">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>
