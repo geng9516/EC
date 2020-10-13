@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+			<table width="100%">
+				<tr>
+					<td th:text="${userlogin.loginName}"></td>
+					<td align="right"><input type="button" value="カート">&nbsp;&nbsp;<input type="button" value="ログアウト"></td>
+				</tr>
+			</table>
+		</div>
+		<hr>
+		<div>
+			<div align="center">
+				<form>
+					<input type="text" name="text">
+					<input type="submit" value="検索">
+				</form>
+			</div>
+			<br />
+			<table align="center" border="1px">
+				<tr>
+					<th>商品ID</th>
+					<th>商品タイプ</th>
+					<th>商品情報</th>
+					<th>売価</th>
+					<th>操作</th>
+				</tr>
+				<!-- <form>
+
+					<tr>
+						<td><input type="text" name="productid" placeholder="商品ID"></td>
+						<td><input type="text" name="productid" placeholder="商品タイプ"></td>
+						<td><input type="text" name="product_intro" placeholder="商品情報"></td>
+						<td><input type="text" name="sales" placeholder="売価"></td>
+						<td><input type="text" name="cost" placeholder="原価"></td>
+						<td></td>
+					</tr>
+				</form> -->
+				<tr>
+					<td th:text="${date}"></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td align="center">
+						<span><input type="submit" value="カートに入れる"></span><br />
+						<span><a href="productEdit.html"><input type="button" value="今すぐ買う"></a></span><br />
+						<!-- <span><input type="button" value="削除"></span> -->
+					</td>
+				</tr>
+			</table>
+
+		</div>
+	</body>
+</html>

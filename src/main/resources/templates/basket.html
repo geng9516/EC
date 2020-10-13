@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://wwww.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			window.onload = function() {
+
+				var aihaos = document.getElementsByName("aihao");
+				var firstChk = document.getElementById("firstChk");
+				firstChk.onclick = function() {
+					for (var i = 0; i < aihaos.length; i++) {
+						aihaos[i].checked = firstChk.checked;
+					}
+				}
+
+				// 对以上数组进行遍历
+				var all = aihaos.length;
+				for (var i = 0; i < aihaos.length; i++) {
+					aihaos[i].onclick = function() {
+						var checkedCount = 0;
+						// 总数量和选中的数量相等的时候,第一个复选框选中.
+						for (var i = 0; i < aihaos.length; i++) {
+							if (aihaos[i].checked) {
+								checkedCount++;
+							}
+						}
+						firstChk.checked = (all == checkedCount);
+					}
+				}
+			}
+		</script>
+		<input type="button" value="戻る">
+		<div align="center">
+			<input type="checkbox" id="firstChk" /><Br>
+			<!-- <input type="checkbox" name="aihao" value="smoke" />抽烟<Br>
+			<input type="checkbox" name="aihao" value="drink" />喝酒<Br>
+			<input type="checkbox" name="aihao" value="tt" />烫头<Br> -->
+			<input type="submit" value="購入">
+		</div>
+	</body>
+</html>

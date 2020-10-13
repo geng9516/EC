@@ -51,30 +51,30 @@
 					<td align="center" ><input type="submit" value="検索"></td>
 				</tr>
 			</form>
-			<tr>
-				<td></td>
-				<!-- 写真　<a></a> -->
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr th:each="userinfo:${userinfoList}" align="center">
+				<td th:text="${userinfo.id}"></td>
+				<!-- 写真<a></a> -->
+				<td><img th:src="${userinfo.photo}" th:width="${89}"></img></td>
+				<td th:text="${userinfo.userName}"></td>
+				<td th:text="${userinfo.userNickname}"></td>
+				<td th:text="${userinfo.tel}"></td>
+				<td th:text="${userinfo.email}"></td>
+				<td th:text="${userinfo.sex}"></td>
+				<td th:text="${userinfo.status}"></td>
+				<td th:text="${userinfo.address}"></td>
+				<td th:text="${userinfo.birth}"></td>
+				<td th:text="${userinfo.dateCreated}"></td>
+				<td th:text="${userinfo.dateModified}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br/>
 					<span><a th:href="@{userEdit}"><input type="button" value="編集"></a></span><br/>
-					<span><input type="button" value="削除"></span>
+					<span><a th:href="@{deleteUser(userId=${userinfo.id})}"><input type="button" value="削除"></a></span><br/>
 				</td>
 			</tr>
 		</table>
 		<div align="center">
 			<a th:href="@{menu}"><input type="button" value="戻る"></a>
-			<a th:href="@{userAdd}"><input type="button" value="新規追加"></a>
+			<a th:href="@{userAdd?str=userAll}"><input type="button" value="新規追加"></a>
 		</div>
 	</body>
 </html>

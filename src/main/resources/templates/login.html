@@ -7,7 +7,7 @@
 	<body>
 		<center>
 			<h2>ショップデータ管理システム</h2>
-			<form>
+			<form action="/login" method="get">
 				<table>
 					<tr>
 						<td>ログインID：</td>
@@ -18,14 +18,13 @@
 						<td><input type='password' name='password'></td>
 					</tr>
 					<tr>
-						<td><input type='submit' value='ログイン'></td>
-						<td><input type='reset' value='リセット'></td>
+						<td colspan="2" align="center"><input type='submit' value='ログイン'>
+						<a th:href="@{userAdd?str=login}"><input type="button" value='登録'></a>
+						</td>
+						<!-- <td></td> -->
 					</tr>
 				</table>
 			</form>
-
 		</center>
-
 	</body>
-
 </html>

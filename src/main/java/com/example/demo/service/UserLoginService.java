@@ -19,4 +19,14 @@ public class UserLoginService {
 	public List<UserLogin> findUser_login() {
 		return loginRepository.findAll();
 	}
+
+	public String saveUserLogin(UserLogin userLogin) {
+		loginRepository.save(userLogin);
+		return "";
+	}
+
+	public UserLogin findUserByLoginId(String loginId, String password) {
+		return loginRepository.findUserByLoginId(loginId, password);
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class CharacterService {
 		return characterRepository.findAll();
 	}
 
-	public String deleteCharacterById(String character_name) {
-		characterRepository.deleteById(character_name);
+	public String deleteCharacterByCharacterName(Integer characterId) {
+		characterRepository.deleteCharacterByCharacterName(characterId);
 		return "成功";
 	}
 
@@ -31,8 +32,12 @@ public class CharacterService {
 		return "";
 	}
 
-	public String editChatacter(Characters character) {
-		characterRepository.save(character);
+	public String editChatacter(String characterName,String status,Timestamp timestamp) {
+		characterRepository.setCharacterById(characterName,status,timestamp);
 		return "";
+	}
+
+	public Characters findCharacterByCharacterName(String characterName) {
+		return characterRepository.findCharacterByCharacterName(characterName);
 	}
 }

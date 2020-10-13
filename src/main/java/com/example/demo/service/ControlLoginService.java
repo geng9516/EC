@@ -19,4 +19,23 @@ public class ControlLoginService {
 	public List<ControlLogin> findAllCharacter_login(){
 		return controlLoginRepository.findAll();
 	}
+
+	public String saveControlLogin(ControlLogin controlLogin) {
+		controlLoginRepository.save(controlLogin);
+		return "";
+	}
+
+	public ControlLogin findControlLoginByControlName(Integer controlId) {
+		return controlLoginRepository.findControlLoginByControlName(controlId);
+	}
+
+	public String deleteControlLogin(ControlLogin controlLogin) {
+		controlLoginRepository.delete(controlLogin);
+		return "";
+	}
+
+	public String updateCotrolByid(Integer controlLoginId,String password) {
+		controlLoginRepository.updateCotrolByid(controlLoginId,password);
+		return "";
+	}
 }

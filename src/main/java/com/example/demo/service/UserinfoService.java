@@ -10,7 +10,7 @@ import com.example.demo.entity.Userinfo;
 import com.example.demo.repository.UserinfoRepository;
 
 @Service
-@Transactional
+@Transactional//事务
 public class UserinfoService {
 
 	@Autowired
@@ -20,5 +20,21 @@ public class UserinfoService {
 
 		return userinfoRepository.findAll();
 	}
+
+	public Userinfo findUser(Integer userId) {
+		return userinfoRepository.findByUserId(userId);
+
+	}
+
+	public String saveUserinfo(Userinfo userinfo) {
+		userinfoRepository.save(userinfo);
+		return "";
+	}
+
+	public String deleteUser(Userinfo userinfo) {
+		userinfoRepository.delete(userinfo);
+		return "";
+	}
+
 
 }

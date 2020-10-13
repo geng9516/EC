@@ -2,94 +2,143 @@ package com.example.demo.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="t_products")
+@Table(name = "t_products")
 public class Product {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer product_id;
-	private String product_type;
-	private String product_intro;
+
+	private Integer id;
+	private String productType;
+	private String productIntro;
 	private Double sales;
 	private Double cost;
 	private Integer stock;
-	private Integer Access_number;
-	private Timestamp date_created;
-	private Timestamp date_modified;
-	public Integer getProduct_id() {
-		return product_id;
+	private Integer AccessNumber;
+	private Timestamp dateCreated;
+	private Timestamp dateModified;
+	private Order order;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
 	}
-	public void setProduct_id(Integer product_id) {
-		this.product_id = product_id;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getProduct_type() {
-		return product_type;
+
+	@Column(name = "product_type")
+	public String getProductType() {
+		return productType;
 	}
-	public void setProduct_type(String product_type) {
-		this.product_type = product_type;
+
+	public void setProductType(String productType) {
+		this.productType = productType;
 	}
-	public String getProduct_intro() {
-		return product_intro;
+
+	@Column(name = "product_intro")
+	public String getProductIntro() {
+		return productIntro;
 	}
-	public void setProduct_intro(String product_intro) {
-		this.product_intro = product_intro;
+
+	public void setProductIntro(String productIntro) {
+		this.productIntro = productIntro;
 	}
+
 	public Double getSales() {
 		return sales;
 	}
+
 	public void setSales(Double sales) {
 		this.sales = sales;
 	}
+
 	public Double getCost() {
 		return cost;
 	}
+
 	public void setCost(Double cost) {
 		this.cost = cost;
 	}
+
 	public Integer getStock() {
 		return stock;
 	}
+
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
-	public Integer getAccess_number() {
-		return Access_number;
+
+	public Integer getAccessNumber() {
+		return AccessNumber;
 	}
-	public void setAccess_number(Integer access_number) {
-		Access_number = access_number;
+
+	public void setAccessNumber(Integer accessNumber) {
+		AccessNumber = accessNumber;
 	}
-	public Timestamp getDate_created() {
-		return date_created;
+
+	@Column(name = "date_created")
+	public Timestamp getDateCreated() {
+		return dateCreated;
 	}
-	public void setDate_created(Timestamp date_created) {
-		this.date_created = date_created;
+
+	public void setDateCreated(Timestamp dateCreated) {
+		this.dateCreated = dateCreated;
 	}
-	public Timestamp getDate_modified() {
-		return date_modified;
+
+	@Column(name = "date_modified")
+	public Timestamp getDateModified() {
+		return dateModified;
 	}
-	public void setDate_modified(Timestamp date_modified) {
-		this.date_modified = date_modified;
+
+	public void setDateModified(Timestamp dateModified) {
+		this.dateModified = dateModified;
 	}
-	public Product(Integer product_id, String product_type, String product_intro, Double sales, Double cost,
-			Integer stock, Integer access_number, Timestamp date_created, Timestamp date_modified) {
+
+	@JoinColumn(name = "order_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Product(Integer id, String productType, String productIntro, Double sales, Double cost, Integer stock,
+			Integer accessNumber, Timestamp dateCreated, Timestamp dateModified, Order order) {
 		super();
-		this.product_id = product_id;
-		this.product_type = product_type;
-		this.product_intro = product_intro;
+		this.id = id;
+		this.productType = productType;
+		this.productIntro = productIntro;
 		this.sales = sales;
 		this.cost = cost;
 		this.stock = stock;
-		Access_number = access_number;
-		this.date_created = date_created;
-		this.date_modified = date_modified;
+		AccessNumber = accessNumber;
+		this.dateCreated = dateCreated;
+		this.dateModified = dateModified;
+		this.order = order;
 	}
+
 	public Product() {
 		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", productType=" + productType + ", productIntro=" + productIntro + ", sales="
+				+ sales + ", cost=" + cost + ", stock=" + stock + ", AccessNumber=" + AccessNumber + ", dateCreated="
+				+ dateCreated + ", dateModified=" + dateModified + "]";
 	}
 
 

@@ -21,4 +21,29 @@ public class ControlService {
 
 		return controlRepository.findAll();
 	}
+
+	public String saveControl(Control control) {
+		controlRepository.save(control);
+		return "";
+	}
+
+	public String deleteControlbyControlName(Integer controlName) {
+		controlRepository.deleteControlbyControlName(controlName);
+		return "";
+	}
+
+	public Control findControlByControlId(Integer controlId) {
+
+		return controlRepository.findControlByControlId(controlId);
+	}
+
+	public String updateCotrolByid(Integer controlId,String status,Character sex,String tel) {
+		controlRepository.updateCotrolByid(controlId,status,sex,tel);
+		return "";
+	}
+
+	public String fingByControlName(String loginId) {
+		return controlRepository.findByControlName(loginId);
+	}
+
 }

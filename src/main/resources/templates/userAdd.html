@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
 		<title></title>
 	</head>
 	<body>
 		<h2 align="center">ユーザー登録</h2>
-		<form>
-			<table align="center" border="1px">
+		<form action="/saveUser" method="post" enctype="multipart/form-data">
+			<table th:align="center" th:border="1px">
 				<tr>
 					<td>写真選択</td>
-					<td><input type="file" name="photo" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png"></td>
+					<td><input type="file" name="photo" id="photo"></td>
 				</tr>
 				<tr>
 					<td>ユーザー名</td>
@@ -31,8 +31,8 @@
 				<tr>
 					<td>性別</td>
 					<td>
-						<input type="radio" name="sex">男
-						<input type="radio" name="sex">女
+						<input type="radio" name="sex" value="男">男
+						<input type="radio" name="sex" value="女">女
 					</td>
 				</tr>
 				<tr>
@@ -53,8 +53,13 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<a th:href="@{backUserAll}"><input type="button" value="戻る"></a>
-						<input type="submit" value="保存">
+						<span th:if="${str == 'userAll'}">
+							<a th:href="@{backUserAll}"><input type="button" value="戻る"></a>
+						</span>
+						<span th:if="${str == 'login'}">
+							<a th:href="@{/index}"><input type="button" value="戻る"></a>
+						</span>
+						<input type="submit" value="保存" onclick="setPhtoSize()">
 						<input type="reset" value="リセット">
 					</td>
 				</tr>

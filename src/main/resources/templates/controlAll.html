@@ -51,19 +51,21 @@
 					<td align="center"><input type="submit" value="検索"></td>
 				</tr>
 			</form>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr th:each="control:${controlList}" align="center">
+				<h th:text="${control.id}"></h>
+				<h th:text="${control.controlLogin.id}"></h>
+				<td th:text="${control.control_name}"></td>
+				<td th:text="${control.statusbycontrol}"></td>
+				<td th:text="${control.character_name}"></td>
+				<td th:text="${control.sex}"></td>
+				<td th:text="${control.tel}"></td>
+				<td th:text="${control.login_times}"></td>
+				<td th:text="${control.last_login}"></td>
+				<td th:text="${control.date_created}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br/>
-					<span><a th:href="@{controlEdit}"><input type="button" value="編集"></a></span><br/>
-					<span><input type="button" value="削除"></span>
+					<span><a th:href="@{controlEdit(control_id=${control.id})}"><input type="button" value="編集"></a></span><br/>
+					<span><a th:href="@{delteControl(control_id=${control.id},cid=${control.controlLogin.id})}"><input type="button" value="削除"></span>
 				</td>
 			</tr>
 		</table>

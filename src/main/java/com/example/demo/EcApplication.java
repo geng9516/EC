@@ -10,3 +10,4 @@ public class EcApplication {
 		SpringApplication.run(EcApplication.class, args);
 	}
 }
+    

@@ -34,16 +34,16 @@
 					<td align="center"><input type="submit" value="検索"></td>
 				</tr>
 			</form>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr th:each="product:${productList}">
+				<td th:text="product.id"></td>
+				<td th:text="product.productType"></td>
+				<td th:text="product.productIntro"></td>
+				<td th:text="product.sales"></td>
+				<td th:text="product.cost"></td>
+				<td th:text="product.stock"></td>
+				<td th:text="product.AccessNumber"></td>
+				<td th:text="product.dateCreated"></td>
+				<td th:text="product.dateModified"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br />
 					<span><a th:href="@{productEdit}"><input type="button" value="編集"></a></span><br />

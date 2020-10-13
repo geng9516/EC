@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
 		<title></title>
 	</head>
 	<body>
 		<h2 align="center">管理者編集</h2>
-		<form>
+		<form action="editControl" method="post">
 			<table align="center" border="1px">
+				<input type="text" name="control_id" th:value="${control.id}">
+				<input type="text" name="controlLogin_id" th:value="${control.controlLogin.id}">
 				<tr>
 					<td>ユーザー名</td>
-					<td><input type="text" disabled></td>
+					<td><input type="text" disabled th:value="${control.control_name}"></td>
 				</tr>
 				<tr>
 					<td>パスワード</td>
@@ -23,10 +25,13 @@
 				<tr>
 					<td>性別</td>
 					<td>
-						<input type="radio" name="sex">男
-						<input type="radio" name="sex">女
-						<input type="radio" name="sex">秘密
+						<input type="radio" name="sex" value="男">男
+						<input type="radio" name="sex" value="女">女
 					</td>
+				</tr>
+				<tr>
+					<td>電話番号</td>
+					<td><input type="text" name="tel" th:value="${control.tel}"></td>
 				</tr>
 				<tr>
 					<td>状態</td>
@@ -45,7 +50,6 @@
 						<input type="reset" value="リセット">
 					</td>
 				</tr>
-
 			</table>
 		</form>
 	</body>
