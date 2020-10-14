@@ -19,10 +19,11 @@ public class Product {
 	private Integer id;
 	private String productType;
 	private String productIntro;
+	private String status;
 	private Double sales;
 	private Double cost;
 	private Integer stock;
-	private Integer AccessNumber;
+	private Integer accessNumber;
 	private Timestamp dateCreated;
 	private Timestamp dateModified;
 	private Order order;
@@ -55,6 +56,14 @@ public class Product {
 		this.productIntro = productIntro;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Double getSales() {
 		return sales;
 	}
@@ -79,12 +88,12 @@ public class Product {
 		this.stock = stock;
 	}
 
+	@Column(name = "access_number")
 	public Integer getAccessNumber() {
-		return AccessNumber;
+		return accessNumber;
 	}
-
 	public void setAccessNumber(Integer accessNumber) {
-		AccessNumber = accessNumber;
+		this.accessNumber = accessNumber;
 	}
 
 	@Column(name = "date_created")
@@ -115,16 +124,18 @@ public class Product {
 		this.order = order;
 	}
 
-	public Product(Integer id, String productType, String productIntro, Double sales, Double cost, Integer stock,
-			Integer accessNumber, Timestamp dateCreated, Timestamp dateModified, Order order) {
+
+	public Product(Integer id, String productType, String productIntro, String status, Double sales, Double cost,
+			Integer stock, Integer accessNumber, Timestamp dateCreated, Timestamp dateModified, Order order) {
 		super();
 		this.id = id;
 		this.productType = productType;
 		this.productIntro = productIntro;
+		this.status = status;
 		this.sales = sales;
 		this.cost = cost;
 		this.stock = stock;
-		AccessNumber = accessNumber;
+		this.accessNumber = accessNumber;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
 		this.order = order;
@@ -136,11 +147,9 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", productType=" + productType + ", productIntro=" + productIntro + ", sales="
-				+ sales + ", cost=" + cost + ", stock=" + stock + ", AccessNumber=" + AccessNumber + ", dateCreated="
-				+ dateCreated + ", dateModified=" + dateModified + "]";
+		return "Product [id=" + id + ", productType=" + productType + ", productIntro=" + productIntro + ", status="
+				+ status + ", sales=" + sales + ", cost=" + cost + ", stock=" + stock + ", accessNumber=" + accessNumber
+				+ ", dateCreated=" + dateCreated + ", dateModified=" + dateModified + "]";
 	}
-
-
 
 }

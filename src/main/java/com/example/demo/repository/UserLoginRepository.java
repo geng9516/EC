@@ -11,4 +11,9 @@ public interface UserLoginRepository extends JpaRepository<UserLogin,Integer>{
 
 	@Query("select u from UserLogin u where u.loginName=?1 and u.pass=?2")
 	UserLogin findUserByLoginId(String loginId,String password);
+
+	//使用しない
+	@Query("select u from UserLogin u where u.id=?1")
+	UserLogin findUserLoginById(Integer userId);
 }
+

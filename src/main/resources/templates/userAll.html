@@ -67,7 +67,7 @@
 				<td th:text="${userinfo.dateModified}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br/>
-					<span><a th:href="@{userEdit}"><input type="button" value="編集"></a></span><br/>
+					<span><a th:href="@{userEdit(userId=${userinfo.id})}"><input type="button" value="編集"></a></span><br/>
 					<span><a th:href="@{deleteUser(userId=${userinfo.id})}"><input type="button" value="削除"></a></span><br/>
 				</td>
 			</tr>

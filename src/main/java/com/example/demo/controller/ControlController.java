@@ -98,8 +98,6 @@ public class ControlController {
 			@RequestParam(name = "control_id") Integer controlId) {
 		ModelAndView mav = new ModelAndView();
 		Control control = controlService.findControlByControlId(controlId);
-		System.out.println(control);
-
 		mav.addObject("control", control);
 		mav.setViewName("controlEdit");
 		return mav;

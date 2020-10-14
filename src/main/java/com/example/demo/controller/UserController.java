@@ -72,16 +72,14 @@ public class UserController {
 		if (!photo.isEmpty()) {
 			try {
 				File oldName = new File(photo.getOriginalFilename());
-				newName = new File(userName + ".jpg");
+				newName = new File(tel + ".jpg");
 				oldName.renameTo(newName);
 				byte[] bytes = photo.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
 						new FileOutputStream(new File(path + newName)));
 				stream.write(bytes);
 				stream.close();
-				System.out.println(stream);
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 		}
@@ -137,25 +135,63 @@ public class UserController {
 
 	//編集
 	@RequestMapping("/userEdit")
-	public String userEdit(Model model) {
+	public String userEdit(Model model,
+			@RequestParam(name = "userId") Integer userId) {
+		Userinfo userinfo = userinfoService.findUser(userId);
+		model.addAttribute("userId", userinfo);
 		return "userEdit";
 	}
 
-	@RequestMapping("saveUser")
-	public RedirectView saveUser(
-
-	) {
+	@RequestMapping("/editUser")
+	public RedirectView editUser(
+			@RequestParam(name = "userId") Integer userId,
+			@RequestParam(name = "photo") MultipartFile photo,
+			@RequestParam(name = "tel") String tel,
+			@RequestParam(name = "email") String email,
+			@RequestParam(name = "address") String address,
+			@RequestParam(name = "birth") String birth,
+			@RequestParam(name = "password") String password) {
+		Userinfo userinfo = userinfoService.findUser(userId);
+		File newName = null;
+		if (!photo.isEmpty()) {
+			try {
+				File oldName = new File(photo.getOriginalFilename());
+				newName = new File(tel + ".jpg");
+				oldName.renameTo(newName);
+				byte[] bytes = photo.getBytes();
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File(path + newName)));
+				stream.write(bytes);
+				stream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				userinfo.setPhoto(pictureUrl + newName.toString());
+			}
+		}
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		userinfo.setTel(tel);
+		userinfo.setEmail(email);
+		userinfo.setSex(sex);
+		userinfo.setAddress(address);
+		userinfo.setStatus("普通");
+		userinfo.setBirth(Date.valueOf(birth));
+		userinfo.setDateCreated(timestamp);
+		//userinfoとuserLoginを関連つける
+		userinfo.setUserLogin(set);
+		userLogin1.setUserinfo(userinfo);
+		userLogin2.setUserinfo(userinfo);
+		userLogin3.setUserinfo(userinfo);
 		RedirectView redirectTarget = new RedirectView();
 		redirectTarget.setUrl("userAll");
 		return redirectTarget;
 	}
 
 	@RequestMapping("/backUserAll")
-	public RedirectView backUserAll(Model model) {
+	public RedirectView backUserAll() {
 		RedirectView redirectTarget = new RedirectView();
 		redirectTarget.setUrl("userAll");
 		return redirectTarget;
 	}
-
 
 }

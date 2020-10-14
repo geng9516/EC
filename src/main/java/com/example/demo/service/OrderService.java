@@ -21,4 +21,19 @@ public class OrderService {
 		return orderRepository.findAll();
 	}
 
+	public String save(Order order) {
+		orderRepository.save(order);
+		return "";
+	}
+
+	public Order findOrderByOrderId(String orderId) {
+
+		return orderRepository.findOrderByOrderId(orderId);
+	}
+
+	public String deleteOrder(Order order) {
+		orderRepository.delete(order);
+		return "";
+	}
+
 }

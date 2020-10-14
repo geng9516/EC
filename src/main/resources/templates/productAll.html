@@ -11,6 +11,7 @@
 				<th>商品ID</th>
 				<th>商品タイプ</th>
 				<th>商品情報</th>
+				<th>ステータス</th>
 				<th>売価</th>
 				<th>原価</th>
 				<th>在庫</th>
@@ -19,12 +20,14 @@
 				<th>更新時間</th>
 				<th>操作</th>
 			</tr>
+			<!-- 検索 -->
 			<form action="" method="get">
 				<tr>
 					<td><input type="text" name="productid" placeholder="商品ID"></td>
 					<td><input type="text" name="productid" placeholder="商品タイプ"></td>
 					<!-- 消費の写真とリンクを<a></a>タグで挿入 -->
 					<td><input type="text" name="product_intro" placeholder="商品情報"></td>
+					<td></td>
 					<td><input type="text" name="sales" placeholder="売価"></td>
 					<td><input type="text" name="cost" placeholder="原価"></td>
 					<td><input type="text" name="stock" placeholder="在庫"></td>
@@ -35,19 +38,21 @@
 				</tr>
 			</form>
 			<tr th:each="product:${productList}">
-				<td th:text="product.id"></td>
-				<td th:text="product.productType"></td>
-				<td th:text="product.productIntro"></td>
-				<td th:text="product.sales"></td>
-				<td th:text="product.cost"></td>
-				<td th:text="product.stock"></td>
-				<td th:text="product.AccessNumber"></td>
-				<td th:text="product.dateCreated"></td>
-				<td th:text="product.dateModified"></td>
+				<td th:text="${product.id}"></td>
+				<td th:text="${product.productType}"></td>
+				<td th:text="${product.productIntro}"></td>
+				<td th:text="${product.status}"></td>
+				<td th:text="${product.sales}"></td>
+				<td th:text="${product.cost}"></td>
+				<td th:text="${product.stock}"></td>
+				<td th:text="${product.AccessNumber}"></td>
+				<td th:text="${product.dateCreated}"></td>
+				<td th:text="${product.dateModified}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br />
-					<span><a th:href="@{productEdit}"><input type="button" value="編集"></a></span><br />
-					<span><input type="button" value="削除"></span>
+					<span><a th:href="@{productEdit(productId=${product.id})}"><input type="button" value="編集"></a></span><br />
+					<span><a th:href="@{deleteProduct(productId=${product.id})}"><input type="button" value="削除"></a></span><br />
+					<!-- <span><input type="button" value="削除"></span> -->
 				</td>
 			</tr>
 		</table>

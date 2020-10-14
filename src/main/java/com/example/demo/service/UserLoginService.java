@@ -29,4 +29,9 @@ public class UserLoginService {
 		return loginRepository.findUserByLoginId(loginId, password);
 	}
 
+	//使用しない
+	public UserLogin findUserLoginById(Integer userId) {
+		return loginRepository.findUserLoginById(userId);
+	}
+
 }

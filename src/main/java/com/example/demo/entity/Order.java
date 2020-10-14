@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Order {
 
 	private Integer id;
-	private Integer orderId;
+	private String orderId;
 	private String statusByOrder;
 	private String statusByBuy;
 	private Double total;
@@ -46,11 +46,11 @@ public class Order {
 		this.id = id;
 	}
 
-	public Integer getOrderId() {
+	public String getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Integer orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 
@@ -160,7 +160,7 @@ public class Order {
 		this.product = product;
 	}
 
-	public Order(Integer id, Integer orderId, String statusByOrder, String statusByBuy, Double total, Double payment,
+	public Order(Integer id, String orderId, String statusByOrder, String statusByBuy, Double total, Double payment,
 			String address, Integer numberByOrder, Timestamp dateCreated, Timestamp dateModified, Timestamp payTime,
 			Timestamp confirmationTime, Userinfo user, Set<Product> product) {
 		super();

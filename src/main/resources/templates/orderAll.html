@@ -41,28 +41,26 @@
 					<td align="center"><input type="submit" value="検索"></td>
 				</tr>
 			</form>
-			<tr>
-				<form>
-					<td></td>
+				<tr th:each="order:${orderList}" align="center">
+					<td th:text="${order.orderId}"></td>
 					<!-- <td></td> -->
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td th:text="${order.user.userName}"></td>
+					<td th:text="${order.statusByOrder}"></td>
+					<td th:text="${order.statusByBuy}"></td>
+					<td th:text="${order.total}"></td>
+					<td th:text="${order.payment}"></td>
+					<td th:text="${order.address}"></td>
+					<td th:text="${order.numberByOrder}"></td>
+					<td th:text="${order.payTime}"></td>
+					<td th:text="${order.ConfirmationTime}"></td>
+					<td th:text="${order.dateCreated}"></td>
+					<td th:text="${order.dateModified}"></td>
 					<td align="center">
-						<span><input type="submit" value="確認"></span><br/>
-						<span><a href="orderEdit.html"><input type="button" value="編集"></a></span><br/>
-						<span><input type="button" value="削除"></span>
+						<span><a th:href="@{checkOrder(orderId=${order.orderId})}"><input type="button" value="確認"></a></span><br/>
+						<span><a th:href="@{orderEdit(orderId=${order.orderId})}"><input type="button" value="支払"></a></span><br/>
+						<span><a th:href="@{deleteOrder(orderId=${order.orderId})}"><input type="button" value="削除"></a></span>
 					</td>
-				</form>
-			</tr>
+				</tr>
 		</table>
 		<div align="center">
 			<a th:href="@{menu}"><input type="button" value="戻る"></a>

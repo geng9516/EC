@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
 		<title></title>
 	</head>
 	<body>
 		<h2 align="center">商品編集</h2>
-		<form>
+		<form action="/editProduct">
+			<input type="hidden" name = "productId" th:value="${product.id}">
 			<table align="center" border="1px">
 				<tr>
 					<td>商品タイプ</td>
 					<td>
-						<select name="producttype">
+						<select name="productType">
 							<option>腕時計</option>
 							<option>洋服</option>
 							<option>食品</option>
@@ -22,29 +23,39 @@
 				<tr>
 					<td>商品紹介</td>
 					<td>
-						<textarea name="product_intro"></textarea>
+						<textarea name="productIntro" rows="4" cols="40" ></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>ステータス</td>
+					<td>
+						<select name="status">
+								<option selected="selected">出品中</option>
+								<option>出品停止</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<td>販売価格</td>
-					<td><input type="text" name="sales"></inout>
+					<td><input type="text" name="sales" th:value="${product.sales}"/>
 					</td>
 				</tr>
 				<tr>
 					<td>仕入原価</td>
-					<td><input type="text" name="cost"></inout>
+					<td>
+						<input type="text" name="cost" th:value="${product.cost}"/>
 					</td>
 				</tr>
 				<tr>
 					<td>在庫</td>
-					<td><input type="text" name="stock"></inout>
+					<td><input type="text" name="stock" th:value="${product.stock}"/>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
 						<a th:href="@{backProductAll}"><input type="button" value="戻る"></a>
-						<input type="submit" value="保存">
-						<input type="reset" value="リセット">
+						<input type="submit" value="保存" />
+						<!-- <input type="reset" value="リセット" /> -->
 					</td>
 				</tr>
 			</table>

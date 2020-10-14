@@ -33,8 +33,5 @@ public class ControlLogin {
 	}
 
 
-//		private Control control;
-
-
 
 }

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html cmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 		<title></title>
 	</head>
 	<body>
 		<h2 align="center">ユーザー情報編集</h2>
-		<form>
+		<form action="editUser" method="post">
+		<input type="hidden" name="userId" th:value="${userinfo.id}">
 			<table align="center" border="1px">
 				<tr>
 					<td>写真選択</td>
@@ -14,19 +15,19 @@
 				</tr>
 				<tr>
 					<td>ユーザー名</td>
-					<td><input type="text" disabled></td>
+					<td><input type="text" disabled th:value="${userinfo.userName}"></td>
 				</tr>
 				<tr>
 					<td>ニックネーム</td>
-					<td><input type="text" name="nickname"></td>
+					<td><input type="text" disabled name="nickname" th:value="${userinfo.userNickname}"></td>
 				</tr>
 				<tr>
 					<td>電話番号</td>
-					<td><input type="text" name="tel"></td>
+					<td><input type="text" name="tel" th:value="${userinfo.tel}"></td>
 				</tr>
 				<tr>
 					<td>メールアドレス</td>
-					<td><input type="email" name="email"></td>
+					<td><input type="email" name="email" th:value="${userinfo.email}"></td>
 				</tr>
 				<!--<tr>
 					<td>性別</td>
@@ -34,7 +35,7 @@
 				</tr>-->
 				<tr>
 					<td>住所</td>
-					<td><input type="text" name="address"></td>
+					<td><input type="text" name="address" th:value="${userinfo.address}"></td>
 				</tr>
 				<tr>
 					<td>誕生日</td>

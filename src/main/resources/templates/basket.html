@@ -5,40 +5,25 @@
 		<title></title>
 	</head>
 	<body>
-		<script type="text/javascript">
-			window.onload = function() {
-
-				var aihaos = document.getElementsByName("aihao");
-				var firstChk = document.getElementById("firstChk");
-				firstChk.onclick = function() {
-					for (var i = 0; i < aihaos.length; i++) {
-						aihaos[i].checked = firstChk.checked;
-					}
-				}
-
-				// 对以上数组进行遍历
-				var all = aihaos.length;
-				for (var i = 0; i < aihaos.length; i++) {
-					aihaos[i].onclick = function() {
-						var checkedCount = 0;
-						// 总数量和选中的数量相等的时候,第一个复选框选中.
-						for (var i = 0; i < aihaos.length; i++) {
-							if (aihaos[i].checked) {
-								checkedCount++;
-							}
-						}
-						firstChk.checked = (all == checkedCount);
-					}
-				}
-			}
-		</script>
-		<input type="button" value="戻る">
-		<div align="center">
-			<input type="checkbox" id="firstChk" /><Br>
-			<!-- <input type="checkbox" name="aihao" value="smoke" />抽烟<Br>
-			<input type="checkbox" name="aihao" value="drink" />喝酒<Br>
-			<input type="checkbox" name="aihao" value="tt" />烫头<Br> -->
-			<input type="submit" value="購入">
-		</div>
+		<h2 align="center">カート</h2>
+		<table align="center" border="1px">
+				<tr>
+					<th>商品ID</th>
+					<th>商品タイプ</th>
+					<th>商品情報</th>
+					<th>売価</th>
+					<th>操作</th>
+				</tr>
+				<tr th:each="cart:${cartList}">
+					<!-- <input type="text" th:value="${userId}"> -->
+					<td th:text="${cart.pId}"></td>
+					<td th:text="${cart.productType}"></td>
+					<td th:text="${cart.productIntro}"></td>
+					<td th:text="${cart.sales}"></td>
+					<td align="center">
+						<span><a th:href="@{buyIt(productId=${cart.pId},userId=${userId},sales=${cart.sales})}"><input type="button" value="購入"></a></span><br />
+					</td>
+				</tr>
+			</table>
 	</body>
 </html>

@@ -32,7 +32,7 @@ public class Userinfo {
 	private Timestamp dateCreated;
 	private Timestamp dateModified;
 	private Set<UserLogin> userLogin;
-	private Set<Order> oeder;
+	private Set<Order> order;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,12 +46,12 @@ public class Userinfo {
 
 	//orphanRemoval = true ＝＝＝ orderを個別に削除できるようにする
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	public Set<Order> getOeder() {
-		return oeder;
+	public Set<Order> getOrder() {
+		return order;
 	}
 
-	public void setOeder(Set<Order> oeder) {
-		this.oeder = oeder;
+	public void setOrder(Set<Order> order) {
+		this.order = order;
 	}
 
 	public String getPhoto() {
@@ -174,7 +174,7 @@ public class Userinfo {
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
 		this.userLogin = userLogin;
-		this.oeder = oeder;
+		this.order = order;
 	}
 
 	public Userinfo() {
@@ -186,7 +186,7 @@ public class Userinfo {
 		return "Userinfo [id=" + id + ", photo=" + photo + ", userName=" + userName + ", userNickname=" + userNickname
 				+ ", tel=" + tel + ", email=" + email + ", sex=" + sex + ", status=" + status + ", address=" + address
 				+ ", birth=" + birth + ", dateCreated=" + dateCreated + ", dateModified=" + dateModified
-				+ ", userLogin=" + userLogin + ", oeder=" + oeder + "]";
+				+ ", userLogin=" + userLogin + ", order=" + order + "]";
 	}
 
 
