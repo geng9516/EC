@@ -11,7 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,7 +33,7 @@ public class Userinfo {
 	private Date birth;
 	private Timestamp dateCreated;
 	private Timestamp dateModified;
-	private Set<UserLogin> userLogin;
+	private UserLogin userLogin;
 	private Set<Order> order;
 
 	@Id
@@ -148,37 +150,14 @@ public class Userinfo {
 		this.dateModified = dateModified;
 	}
 
-	@OneToMany(mappedBy = "userinfo", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-	public Set<UserLogin> getUserLogin() {
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "userlogin_id",unique = true)
+	public UserLogin getUserLogin() {
 		return userLogin;
 	}
 
-	public void setUserLogin(Set<UserLogin> userLogin) {
+	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
-	}
-
-	public Userinfo(Integer id, String photo, String userName, String userNickname, String tel, String email,
-			Character sex, String status, String address, Date birth, Timestamp dateCreated, Timestamp dateModified,
-			Set<UserLogin> userLogin, Set<Order> oeder) {
-		super();
-		this.id = id;
-		this.photo = photo;
-		this.userName = userName;
-		this.userNickname = userNickname;
-		this.tel = tel;
-		this.email = email;
-		this.sex = sex;
-		this.status = status;
-		this.address = address;
-		this.birth = birth;
-		this.dateCreated = dateCreated;
-		this.dateModified = dateModified;
-		this.userLogin = userLogin;
-		this.order = order;
-	}
-
-	public Userinfo() {
-		super();
 	}
 
 	@Override

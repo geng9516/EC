@@ -52,8 +52,8 @@
 				</tr>
 			</form>
 			<tr th:each="control:${controlList}" align="center">
-				<h th:text="${control.id}"></h>
-				<h th:text="${control.controlLogin.id}"></h>
+				<h th:hidden="${control.id}"></h>
+				<h th:hidde="${control.controlLogin.id}"></h>
 				<td th:text="${control.control_name}"></td>
 				<td th:text="${control.statusbycontrol}"></td>
 				<td th:text="${control.character_name}"></td>

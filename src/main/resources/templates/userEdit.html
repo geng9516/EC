@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h2 align="center">ユーザー情報編集</h2>
-		<form action="editUser" method="post">
+		<form action="editUser" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="userId" th:value="${userinfo.id}">
 			<table align="center" border="1px">
 				<tr>

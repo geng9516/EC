@@ -42,7 +42,7 @@ public class ControlService {
 		return "";
 	}
 
-	public String fingByControlName(String loginId) {
+	public Control fingByControlName(String loginId) {
 		return controlRepository.findByControlName(loginId);
 	}
 

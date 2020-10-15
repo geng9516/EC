@@ -21,6 +21,6 @@ public interface ControlRepository extends JpaRepository<Control,Integer>{
 	@Query("update Control c set c.statusbycontrol=?2,c.sex=?3,c.tel=?4 where c.id=?1")
 	void updateCotrolByid(Integer controlId,String status,Character sex,String tel);
 
-	@Query("select c.character_name from Control c where c.control_name=?1")
-	String findByControlName(String loginId);
+	@Query("select c from Control c where c.control_name=?1")
+	Control findByControlName(String loginId);
 }

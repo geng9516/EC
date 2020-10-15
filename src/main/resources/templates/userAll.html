@@ -22,19 +22,19 @@
 				<th>更新時間</th>
 				<th>操作</th>
 			</tr>
-			<form>
+			<form action="/searchUser">
 				<tr>
-					<td><input type="text" name="userid" placeholder="ユーザーID"> </td>
+					<td><input type="text" name="userId" placeholder="ユーザーID"> </td>
 					<td></td>
-					<td><input type="text" name="username" placeholder="ユーザー名"></td>
+					<td><input type="text" name="userName" placeholder="ユーザー名"></td>
 					<td><input type="text" name="nickname" placeholder="ニックネーム"></td>
 					<td><input type="text" name="tel" placeholder="電話番号"></td>
 					<td><input type="email" name="email" placeholder="メールアドレス"></td>
 					<td>
 						<select name="sex">
 							<option>選択...</option>
-							<option>女</option>
-							<option>男</option>
+							<option value="女">女</option>
+							<option value="男">男</option>
 						</select>
 					</td>
 					<td>
@@ -54,7 +54,7 @@
 			<tr th:each="userinfo:${userinfoList}" align="center">
 				<td th:text="${userinfo.id}"></td>
 				<!-- 写真<a></a> -->
-				<td><img th:src="${userinfo.photo}" th:width="${89}"></img></td>
+				<td><img th:src="${userinfo.photo}" width="50px" height="50px"></img></td>
 				<td th:text="${userinfo.userName}"></td>
 				<td th:text="${userinfo.userNickname}"></td>
 				<td th:text="${userinfo.tel}"></td>

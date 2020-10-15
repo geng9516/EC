@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.Cart;
+import com.example.demo.entity.Control;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.UserLogin;
@@ -57,16 +58,24 @@ public class ShopController {
 			@RequestParam(name = "userid") String loginId,
 			@RequestParam(name = "password") String password) {
 		String targetUrl = null;
-		String name = controlService.fingByControlName(loginId);
-		if ("管理者".equals(name)) {
+		Control control = controlService.fingByControlName(loginId);
+		if (control != null && "root".equals(control.getControl_name())) {
+			int i = control.getLogin_times();
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			control.setLast_login(timestamp);
+			control.setLogin_times(i+1);
+			controlService.saveControl(control);
 			targetUrl = "menu";
-		} else {
+		} else if(userLoginService.findUserLoginById(loginId)){
 			UserLogin userLogin = userLoginService.findUserByLoginId(loginId, password);
 			List<Product> productList = productService.findProductsByStatus("出品中");
-			targetUrl = "personalInterfacecustom";
-			model.addAttribute("userlogin", userLogin);
+			model.addAttribute("userLogin", userLogin);
 			model.addAttribute("productList", productList);
 			model.addAttribute("password", password);
+			targetUrl = "personalInterfacecustom";
+		}else {
+			model.addAttribute("error", "IDかパスワードが間違っています");
+			targetUrl = "error";
 		}
 		return targetUrl;
 	}
@@ -77,14 +86,17 @@ public class ShopController {
 			@RequestParam(name = "userid") String loginId,
 			@RequestParam(name = "password") String password) {
 		String targetUrl = null;
-		String name = controlService.fingByControlName(loginId);
-		if ("管理者".equals(name)) {
+		Control control = controlService.fingByControlName(loginId);
+		if ("root".equals(control.getControl_name())) {
+
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			control.setLast_login(timestamp);
 			targetUrl = "menu";
 		} else {
 			UserLogin userLogin = userLoginService.findUserByLoginId(loginId, password);
 			List<Product> productList = productService.findProductsByStatus("出品中");
 			targetUrl = "personalInterfacecustom";
-			model.addAttribute("userlogin", userLogin);
+			model.addAttribute("userLogin", userLogin);
 			model.addAttribute("productList", productList);
 			model.addAttribute("password", password);
 		}
@@ -95,15 +107,18 @@ public class ShopController {
 	@RequestMapping("/basketIn")
 	public ModelAndView basketIn(
 			@RequestParam(name = "productId") Integer productId,
-			@RequestParam(name = "userId") Integer userId,
-			//需要改进
-			@RequestParam(name = "email") String email,
-			@RequestParam(name = "password") String password) {
+			@RequestParam(name = "userId") Integer userId
+	) {
 		ModelAndView mav = new ModelAndView();
 		Product product = productService.findProductById(productId);
+		Integer i = product.getAccessNumber();
+		product.setAccessNumber(Integer.valueOf(i)+1);
+		productService.save(product);
 		Boolean flog = cartService.findCartByPid(productId);
+		System.out.println(flog);
 		if (flog) {
 			List<Cart> cartList = cartService.fingCartById(userId);
+			System.out.println(cartList);
 			mav.addObject("cartList", cartList);
 			mav.addObject("userId", userId);
 			mav.setViewName("basket");
@@ -139,14 +154,13 @@ public class ShopController {
 			@RequestParam(name = "userId") Integer userId,
 			@RequestParam(name = "sales") Double sales) {
 		Userinfo usrinfo = userinfoService.findUser(userId);
-		System.out.println(usrinfo);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String nowTimeStr = sdf.format(timestamp);
 		RandomOrderNumber ron = new RandomOrderNumber();
 		String randomOrderNumber = ron.random();
 		Order order = new Order();
-		order.setOrderId(nowTimeStr+randomOrderNumber);
+		order.setOrderId(nowTimeStr + randomOrderNumber);
 		order.setStatusByOrder("注文処理中");
 		order.setStatusByBuy("支払確認中");
 		order.setTotal(sales);
@@ -159,7 +173,7 @@ public class ShopController {
 		orderService.save(order);
 		//商品数をマイナスする
 		Product product = productService.findProductById(productId);
-		product.setStock(product.getStock()-1);
+		product.setStock(product.getStock() - 1);
 		productService.save(product);
 		//カートの支払済商品をマイナス
 		cartService.deleteByProductId(productId);

@@ -23,7 +23,7 @@ public class Product {
 	private Double sales;
 	private Double cost;
 	private Integer stock;
-	private Integer accessNumber;
+	private Integer accessNumber=0;
 	private Timestamp dateCreated;
 	private Timestamp dateModified;
 	private Order order;

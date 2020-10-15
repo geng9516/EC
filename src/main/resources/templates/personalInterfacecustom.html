@@ -8,8 +8,8 @@
 		<div>
 			<table width="100%">
 				<tr>
-					<td th:text="${userlogin.userinfo.userName}"></td>
-					<td align="right"><a th:href="@{intoBasket(userId=${userlogin.userinfo.id})}"><input type="button" value="カート"></a>&nbsp;&nbsp;
+					<td th:text="${userLogin.userinfo.userName}"></td>
+					<td align="right"><a th:href="@{intoBasket(userId=${userLogin.userinfo.id})}"><input type="button" value="カート"></a>&nbsp;&nbsp;
 					<a th:href="@{/index}"><input type="button" value="ログアウト"></a>
 					</td>
 				</tr>
@@ -38,8 +38,8 @@
 					<td th:text="${product.productIntro}"></td>
 					<td th:text="${product.sales}"></td>
 					<td align="center">
-						<span><a th:href="@{basketIn(productId=${product.id},userId=${userlogin.userinfo.id},email=${userlogin.userinfo.email},password=${password})}"><input type="button" value="カートに入れる"></a></span><br />
-						<span><a href="productEdit.html"><input type="button" value="今すぐ買う"></a></span><br />
+						<span><a th:href="@{basketIn(productId=${product.id},userId=${userLogin.userinfo.id})}"><input type="button" value="カートに入れる"></a></span><br />
+						<!-- <span><a th:href="@{buyIt(productId=${product.id},userId=${userId},sales=${cart.sales})}"><input type="button" value="購入"></a></span><br /> -->
 					</td>
 				</tr>
 			</table>

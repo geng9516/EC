@@ -28,7 +28,7 @@ public class Control {
 	private String character_name;
 	private Character sex;
 	private String tel;
-	private Integer login_times;
+	private Integer login_times=0;
 	private Timestamp last_login;
 	private Timestamp date_created;
 

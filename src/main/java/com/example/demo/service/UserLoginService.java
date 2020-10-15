@@ -30,8 +30,12 @@ public class UserLoginService {
 	}
 
 	//使用しない
-	public UserLogin findUserLoginById(Integer userId) {
-		return loginRepository.findUserLoginById(userId);
+	public Boolean findUserLoginById(String userId) {
+		boolean flog = false;
+		if(loginRepository.findUserLoginById(userId)!=null) {
+			flog = true;
+		}
+		return flog;
 	}
 
 }

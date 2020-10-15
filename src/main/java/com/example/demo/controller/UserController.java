@@ -6,9 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +23,7 @@ import com.example.demo.entity.UserLogin;
 import com.example.demo.entity.Userinfo;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserinfoService;
+import com.example.demo.util.RandomOrderNumber;
 
 @Controller
 public class UserController {
@@ -41,6 +41,7 @@ public class UserController {
 	@RequestMapping("/userAll")
 	public String userAll(Model model) {
 		List<Userinfo> list = userinfoService.findUserinfos();
+
 		model.addAttribute("userinfoList", list);
 		return "userAll";
 	}
@@ -59,6 +60,7 @@ public class UserController {
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public RedirectView saveUser(
+			@RequestParam(name = "str") String str,
 			@RequestParam(name = "photo") MultipartFile photo,
 			@RequestParam(name = "username") String userName,
 			@RequestParam(name = "nickname") String nickName,
@@ -69,10 +71,14 @@ public class UserController {
 			@RequestParam(name = "birth") String birth,
 			@RequestParam(name = "password") String password) {
 		File newName = null;
+		System.out.println(photo);
 		if (!photo.isEmpty()) {
 			try {
+				RandomOrderNumber ron = new RandomOrderNumber();
+				String name = ron.random();
 				File oldName = new File(photo.getOriginalFilename());
-				newName = new File(tel + ".jpg");
+				System.out.println(oldName);
+				newName = new File(name + ".jpg");
 				oldName.renameTo(newName);
 				byte[] bytes = photo.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
@@ -85,14 +91,8 @@ public class UserController {
 		}
 		RedirectView redirectTarget = new RedirectView();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Set<UserLogin> set = new HashSet<>();
-		UserLogin userLogin1 = new UserLogin(null, null, "email", email, password);
-		UserLogin userLogin2 = new UserLogin(null, null, "電話", tel, password);
-		UserLogin userLogin3 = new UserLogin(null, null, "ニックネーム", nickName, password);
-		set.add(userLogin1);
-		set.add(userLogin2);
-		set.add(userLogin3);
 		Userinfo userinfo = new Userinfo();
+		UserLogin userLogin = new UserLogin();
 		userinfo.setPhoto(pictureUrl + newName.toString());
 		userinfo.setUserName(userName);
 		userinfo.setUserNickname(nickName);
@@ -103,18 +103,18 @@ public class UserController {
 		userinfo.setStatus("普通");
 		userinfo.setBirth(Date.valueOf(birth));
 		userinfo.setDateCreated(timestamp);
+		userLogin.setLoginId(nickName);
+		userLogin.setPass(password);
 		//userinfoとuserLoginを関連つける
-		userinfo.setUserLogin(set);
-		userLogin1.setUserinfo(userinfo);
-		userLogin2.setUserinfo(userinfo);
-		userLogin3.setUserinfo(userinfo);
-		//保存操作
-		//先に1の方を保存し、次に多の方を保存（こうするとSQL文の発生が少なくなる）
+		userinfo.setUserLogin(userLogin);
+		userLogin.setUserinfo(userinfo);
 		userinfoService.saveUserinfo(userinfo);
-		userLoginService.saveUserLogin(userLogin1);
-		userLoginService.saveUserLogin(userLogin2);
-		userLoginService.saveUserLogin(userLogin3);
-		redirectTarget.setUrl("userAll");
+		userLoginService.saveUserLogin(userLogin);
+		if ("userAll".equals(str)) {
+			redirectTarget.setUrl("userAll");
+		} else if ("login".equals(str)) {
+			redirectTarget.setUrl("index");
+		}
 		return redirectTarget;
 	}
 
@@ -138,11 +138,11 @@ public class UserController {
 	public String userEdit(Model model,
 			@RequestParam(name = "userId") Integer userId) {
 		Userinfo userinfo = userinfoService.findUser(userId);
-		model.addAttribute("userId", userinfo);
+		model.addAttribute("userinfo", userinfo);
 		return "userEdit";
 	}
 
-	@RequestMapping("/editUser")
+	@RequestMapping(value = "/editUser", method = RequestMethod.POST)
 	public RedirectView editUser(
 			@RequestParam(name = "userId") Integer userId,
 			@RequestParam(name = "photo") MultipartFile photo,
@@ -152,6 +152,7 @@ public class UserController {
 			@RequestParam(name = "birth") String birth,
 			@RequestParam(name = "password") String password) {
 		Userinfo userinfo = userinfoService.findUser(userId);
+
 		File newName = null;
 		if (!photo.isEmpty()) {
 			try {
@@ -172,17 +173,46 @@ public class UserController {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		userinfo.setTel(tel);
 		userinfo.setEmail(email);
-		userinfo.setSex(sex);
 		userinfo.setAddress(address);
-		userinfo.setStatus("普通");
 		userinfo.setBirth(Date.valueOf(birth));
-		userinfo.setDateCreated(timestamp);
+		userinfo.setDateModified(timestamp);
+		userinfo.getUserLogin().setPass(password);
+		//		userinfo.setUserLogin(userLogin);
 		//userinfoとuserLoginを関連つける
-		userinfo.setUserLogin(set);
-		userLogin1.setUserinfo(userinfo);
-		userLogin2.setUserinfo(userinfo);
-		userLogin3.setUserinfo(userinfo);
+		userinfoService.saveUserinfo(userinfo);
 		RedirectView redirectTarget = new RedirectView();
+		redirectTarget.setUrl("userAll");
+		return redirectTarget;
+	}
+
+	@RequestMapping("/searchUser")
+	public RedirectView searchUser(
+			@RequestParam(name = "userId") Integer id,
+			@RequestParam(name = "userName") Integer userName,
+			@RequestParam(name = "nickname") Integer userNickname,
+			@RequestParam(name = "tel") Integer tel,
+			@RequestParam(name = "email") Integer email,
+			@RequestParam(name = "sex") Integer sex,
+			@RequestParam(name = "status") Integer status,
+			@RequestParam(name = "address") Integer address,
+			@RequestParam(name = "birth") Integer birth) {
+		System.out.println(id+"======================");
+		RedirectView redirectTarget = new RedirectView();
+		List<Object> list = new ArrayList<>();
+		list.add(id);
+		list.add(userName);
+		list.add(userNickname);
+		list.add(tel);
+		list.add(email);
+		list.add(sex);
+		list.add(status);
+		list.add(address);
+		list.add(birth);
+		for(Object o:list) {
+			if(o != null) {
+				System.out.println(o);
+			}
+		}
 		redirectTarget.setUrl("userAll");
 		return redirectTarget;
 	}

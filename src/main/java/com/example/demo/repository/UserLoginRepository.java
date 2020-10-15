@@ -9,11 +9,11 @@ import com.example.demo.entity.UserLogin;
 @Repository
 public interface UserLoginRepository extends JpaRepository<UserLogin,Integer>{
 
-	@Query("select u from UserLogin u where u.loginName=?1 and u.pass=?2")
+	@Query("select u from UserLogin u where u.loginId=?1 and u.pass=?2")
 	UserLogin findUserByLoginId(String loginId,String password);
 
-	//使用しない
-	@Query("select u from UserLogin u where u.id=?1")
-	UserLogin findUserLoginById(Integer userId);
+	//判断
+	@Query("select u from UserLogin u where u.loginId=?1")
+	UserLogin findUserLoginById(String userId);
 }
 
