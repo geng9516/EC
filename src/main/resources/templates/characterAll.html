@@ -32,14 +32,14 @@
 			</form>
 			<tr th:each="character:${characterList}">
 				<h th:hidden="${character.id}"></h>
-				<td th:text="${character.character_name}"></td>
-				<td th:text="${character.statusbycharacter}"></td>
-				<td th:text="${character.date_created}"></td>
-				<td th:text="${character.date_modified}"></td>
+				<td th:text="${character.characterName}"></td>
+				<td th:text="${character.statusByCharacter}"></td>
+				<td th:text="${character.dateCreated}"></td>
+				<td th:text="${character.dateModified}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br/>
-					<span><a th:href="@{characterEdit(character_id=${character.id},character_name=${character.character_name})}"><input type="button" value="編集"></a></span><br/>
-					<span><a th:href="@{characterDelete(character_id=${character.id})}"><input type="button" value="削除"></a></span>
+					<span><a th:href="@{characterEdit(characterId=${character.id},characterName=${character.characterName})}"><input type="button" value="編集"></a></span><br/>
+					<span><a th:href="@{characterDelete(characterId=${character.id})}"><input type="button" value="削除"></a></span>
 					<!-- <span><input type="button" value="削除"></span> -->
 				</td>
 			</tr>

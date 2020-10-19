@@ -8,11 +8,11 @@
 		<h2 align="center">管理者編集</h2>
 		<form action="editControl" method="post">
 			<table align="center" border="1px">
-				<input type="text" name="control_id" th:value="${control.id}">
-				<input type="text" name="controlLogin_id" th:value="${control.controlLogin.id}">
+				<input type="text" name="controlId" th:value="${control.id}">
+				<input type="text" name="controlLoginId" th:value="${control.controlLogin.id}">
 				<tr>
 					<td>ユーザー名</td>
-					<td><input type="text" disabled th:value="${control.control_name}"></td>
+					<td><input type="text" disabled th:value="${control.controlName}"></td>
 				</tr>
 				<tr>
 					<td>パスワード</td>

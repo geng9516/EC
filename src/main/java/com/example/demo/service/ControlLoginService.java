@@ -25,6 +25,15 @@ public class ControlLoginService {
 		return "";
 	}
 
+	//ユーザーIDとパス確認
+	public Boolean findControlUser(String userId,String pass) {
+		Boolean flog = false;
+		if(controlLoginRepository.findControlUser(userId,pass) != null) {
+			flog = true;
+		}
+		return flog;
+	}
+
 	public ControlLogin findControlLoginByControlName(Integer controlId) {
 		return controlLoginRepository.findControlLoginByControlName(controlId);
 	}

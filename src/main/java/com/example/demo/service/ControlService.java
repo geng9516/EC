@@ -42,8 +42,9 @@ public class ControlService {
 		return "";
 	}
 
-	public Control fingByControlName(String loginId) {
-		return controlRepository.findByControlName(loginId);
-	}
+	/*//ログインユーザーを判断
+	public Control fingByControlName(String loginId,String password) {
+		return controlRepository.findByControlName(loginId,password);
+	}*/
 
 }

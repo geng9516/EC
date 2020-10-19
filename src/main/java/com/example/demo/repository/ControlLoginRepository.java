@@ -20,4 +20,9 @@ public interface ControlLoginRepository extends JpaRepository<ControlLogin,Integ
 	@Modifying
 	@Query("update ControlLogin c set c.pass=?2 where c.id=?1")
 	void updateCotrolByid(Integer controlLoginId,String password);
+
+	//ユーザーIDとパス確認
+	@Query("select c from ControlLogin c where c.loginId=?1 and c.pass=?2")
+	ControlLogin findControlUser(String userId,String pass);
+
 }

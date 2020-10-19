@@ -8,11 +8,15 @@
 	<body>
 		<h2 align="center">権限追加</h2>
 		<div>
-			<form action="/saveCharacter" method="post">
+			<form action="/saveCharacter">
 				<table align="center" border="1px">
 					<tr>
 						<td>権限名</td>
-						<td><input type="text" name="charactername"></td>
+						<td>
+							<select name="characterName">
+								<option  value="管理者">管理者</option>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<td>使用状況</td>

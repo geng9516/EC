@@ -10,17 +10,24 @@
 			<table align="center" border="1px">
 				<tr>
 					<td>管理者名</td>
-					<td><input type="text" name="controlname"></td>
+					<td><input type="text" name="controlName"></td>
 				</tr>
 				<tr>
 					<td>状態</td>
 					<td><input type="text" name="status" value="在職中" readonly></td>
 				</tr>
+				<!-- <tr>
+					<td>権限タイプ</td>
+					自動的に変更できるようにする
+					<td><input type="text" name="characterName"></td>
+				</tr> -->
 				<tr>
 					<td>権限タイプ</td>
-					<!-- 自動的に変更できるようにする -->
-					<td><input type="text" name="charactername"></td>
-				</tr>
+					<td>
+						<select name="characterName">
+							<option>管理者</option>
+						</select>
+					</td>
 				<tr>
 					<td>性別</td>
 					<td>

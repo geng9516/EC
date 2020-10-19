@@ -13,7 +13,7 @@ import com.example.demo.entity.Characters;
 public interface CharacterRepository extends JpaRepository<Characters, Integer> {
 
 	@Modifying
-	@Query("update Characters c set c.statusbycharacter=?2,c.date_modified=?3 where c.character_name=?1")
+	@Query("update Characters c set c.statusByCharacter=?2,c.dateModified=?3 where c.characterName=?1")
 	void setCharacterById(String characterName, String status, Timestamp timestamp);
 
 	@Query("select c from Characters c where c.id=?1")

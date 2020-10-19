@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,49 +15,65 @@ public class Characters {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String character_name;
-	private String statusbycharacter;
-	private Timestamp date_created;
-	private Timestamp date_modified;
-
+	private String characterName;
+	private String statusByCharacter;
+	private Timestamp dateCreated;
+	private Timestamp dateModified;
+	public Characters(Integer id, String characterName, String statusByCharacter, Timestamp dateCreated,
+			Timestamp dateModified) {
+		super();
+		this.id = id;
+		this.characterName = characterName;
+		this.statusByCharacter = statusByCharacter;
+		this.dateCreated = dateCreated;
+		this.dateModified = dateModified;
+	}
+	public Characters() {
+		super();
+	}
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getCharacter_name() {
-		return character_name;
+	@Column(name="character_name")
+	public String getCharacterName() {
+		return characterName;
+	}
+	public void setCharacterName(String characterName) {
+		this.characterName = characterName;
 	}
 
-	public void setCharacter_name(String character_name) {
-		this.character_name = character_name;
+	@Column(name="statusbycharacter")
+	public String getStatusByCharacter() {
+		return statusByCharacter;
+	}
+	public void setStatusByCharacter(String statusByCharacter) {
+		this.statusByCharacter = statusByCharacter;
 	}
 
-	public String getStatusbycharacter() {
-		return statusbycharacter;
+	@Column(name="date_created")
+	public Timestamp getDateCreated() {
+		return dateCreated;
+	}
+	public void setDateCreated(Timestamp dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
-	public void setStatusbycharacter(String statusbycharacter) {
-		this.statusbycharacter = statusbycharacter;
+	@Column(name="date_modified")
+	public Timestamp getDateModified() {
+		return dateModified;
+	}
+	public void setDateModified(Timestamp dateModified) {
+		this.dateModified = dateModified;
+	}
+	@Override
+	public String toString() {
+		return "Characters [id=" + id + ", characterName=" + characterName + ", statusByCharacter=" + statusByCharacter
+				+ ", dateCreated=" + dateCreated + ", dateModified=" + dateModified + "]";
 	}
 
-	public Timestamp getDate_created() {
-		return date_created;
-	}
-
-	public void setDate_created(Timestamp date_created) {
-		this.date_created = date_created;
-	}
-
-	public Timestamp getDate_modified() {
-		return date_modified;
-	}
-
-	public void setDate_modified(Timestamp date_modified) {
-		this.date_modified = date_modified;
-	}
 
 }

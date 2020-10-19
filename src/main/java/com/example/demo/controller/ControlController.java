@@ -48,23 +48,23 @@ public class ControlController {
 
 	@RequestMapping(value = "/saveControl")
 	public RedirectView saveControl(
-			@RequestParam(name = "controlname") String controlName,
+			@RequestParam(name = "controlName") String controlName,
 			@RequestParam(name = "status") String status,
-			@RequestParam(name = "charactername") String characterName,
+			@RequestParam(name = "characterName") String characterName,
 			@RequestParam(name = "sex") Character sex,
 			@RequestParam(name = "tel") String tel) {
 		RedirectView redirectTarget = new RedirectView();
 		Control control = new Control();
 		ControlLogin controlLogin = new ControlLogin();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		control.setControl_name(controlName);
-		control.setStatusbycontrol(status);
-		control.setCharacter_name(characterName);
+		control.setControlName(controlName);
+		control.setStatusByControl(status);
+		control.setCharacterName(characterName);
 		control.setSex(sex);
 		control.setTel(tel);
-		control.setDate_created(timestamp);
+		control.setDateCreated(timestamp);
 		control.setControlLogin(controlLogin);
-		controlLogin.setLogin_id(controlName);
+		controlLogin.setLoginId(controlName);
 		controlLogin.setControl(control);
 		controlLogin.setPass(controlName);
 		controlService.saveControl(control);
@@ -95,7 +95,7 @@ public class ControlController {
 	//編集
 	@RequestMapping("/controlEdit")
 	public ModelAndView controlEdit(
-			@RequestParam(name = "control_id") Integer controlId) {
+			@RequestParam(name = "controlId") Integer controlId) {
 		ModelAndView mav = new ModelAndView();
 		Control control = controlService.findControlByControlId(controlId);
 		mav.addObject("control", control);
@@ -105,8 +105,8 @@ public class ControlController {
 
 	@RequestMapping("/editControl")
 	public RedirectView editControl(
-			@RequestParam(name = "control_id") Integer controlId,
-			@RequestParam(name = "controlLogin_id") Integer controlLoginId,
+			@RequestParam(name = "controlId") Integer controlId,
+			@RequestParam(name = "controlLoginId") Integer controlLoginId,
 			@RequestParam(name = "password") String password,
 			@RequestParam(name = "sex") Character sex,
 			@RequestParam(name = "tel") String tel,
