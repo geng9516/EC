@@ -38,7 +38,7 @@ public class Characters {
 		this.id = id;
 	}
 
-	@Column(name="character_name")
+	@Column(name="character_name",unique = true)
 	public String getCharacterName() {
 		return characterName;
 	}

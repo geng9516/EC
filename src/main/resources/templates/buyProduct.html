@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+	<center>
+		<h2>支払画面</h2>
+		<form action="/buyIt">
+			<table border="1px">
+				<tr>
+					<input type="hidden" name="userId" th:value="${cart.uId}">
+					<input type="hidden" name="productId" th:value="${cart.pId}">
+					<td>商品名</td>
+					<td>
+						<input type="text" th:value="${cart.productIntro}">
+					</td>
+				</tr>
+				<tr>
+					<td>支払方法</td>
+					<td>
+						<input type="radio" name="buyWay" value="クレジットカード" />クレジットカード<br />
+						<input type="radio" name="buyWay" value="銀行振込" />銀行振込
+					</td>
+				</tr>
+				<tr>
+					<td>総額</td>
+					<td><input type="text" readonly="readonly" name="sales" th:value="${cart.sales}"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><a th:href="@{backBasket(userId=${cart.uId})}"><input type="button" value="戻る"></a>
+					<input type="submit" value="購入">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</center>
+</body>
+</html>

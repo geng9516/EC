@@ -22,7 +22,7 @@
 					<td th:text="${cart.productIntro}"></td>
 					<td th:text="${cart.sales}"></td>
 					<td align="center">
-						<span><a th:href="@{buyIt(productId=${cart.pId},userId=${userId},sales=${cart.sales})}"><input type="button" value="購入手続きへ"></a></span><br />
+						<span><a th:href="@{buyProcess(productId=${cart.pId},userId=${userId},sales=${cart.sales})}"><input type="button" value="購入手続きへ"></a></span><br />
 					</td>
 				</tr>
 			</table>

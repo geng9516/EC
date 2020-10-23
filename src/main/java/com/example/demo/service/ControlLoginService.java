@@ -16,7 +16,7 @@ public class ControlLoginService {
 	@Autowired
 	ControlLoginRepository controlLoginRepository;
 
-	public List<ControlLogin> findAllCharacter_login(){
+	public List<ControlLogin> findAllCharacter_login() {
 		return controlLoginRepository.findAll();
 	}
 
@@ -25,17 +25,22 @@ public class ControlLoginService {
 		return "";
 	}
 
-	//ユーザーIDとパス確認
-	public Boolean findControlUser(String userId,String pass) {
+	//ログインユーザー存在するかを判断
+	public Boolean findExistLoginUser(String userId, String pass) {
 		Boolean flog = false;
-		if(controlLoginRepository.findControlUser(userId,pass) != null) {
+		if (controlLoginRepository.findExistLoginUser(userId, pass) != null) {
 			flog = true;
 		}
 		return flog;
 	}
 
-	public ControlLogin findControlLoginByControlName(Integer controlId) {
-		return controlLoginRepository.findControlLoginByControlName(controlId);
+	//IDとパスに合った管理者をreturn
+	public ControlLogin findLoginUser(String loginId, String password) {
+		return controlLoginRepository.findExistLoginUser(loginId, password);
+	}
+
+	public ControlLogin findControlLoginById(Integer controlLoginId) {
+		return controlLoginRepository.findControlLoginById(controlLoginId);
 	}
 
 	public String deleteControlLogin(ControlLogin controlLogin) {
@@ -43,8 +48,9 @@ public class ControlLoginService {
 		return "";
 	}
 
-	public String updateCotrolByid(Integer controlLoginId,String password) {
-		controlLoginRepository.updateCotrolByid(controlLoginId,password);
+	public String updateCotrolByid(Integer controlLoginId, String password) {
+		controlLoginRepository.updateCotrolByid(controlLoginId, password);
 		return "";
 	}
+
 }

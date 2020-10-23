@@ -28,6 +28,7 @@
 				<tr>
 					<th>商品ID</th>
 					<th>商品タイプ</th>
+					<th>商品名</th>
 					<th>商品情報</th>
 					<th>売価</th>
 					<th>操作</th>
@@ -36,10 +37,10 @@
 					<td th:text="${product.id}"></td>
 					<td th:text="${product.productType}"></td>
 					<td th:text="${product.productIntro}"></td>
+					<td><img th:src="${product.photo}" width="80px"></td>
 					<td th:text="${product.sales}"></td>
 					<td align="center">
 						<span><a th:href="@{basketIn(productId=${product.id},userId=${userLogin.userinfo.id})}"><input type="button" value="カートに入れる"></a></span><br />
-						<!-- <span><a th:href="@{buyIt(productId=${product.id},userId=${userId},sales=${cart.sales})}"><input type="button" value="購入"></a></span><br /> -->
 					</td>
 				</tr>
 			</table>

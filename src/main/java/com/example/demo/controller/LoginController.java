@@ -2,25 +2,24 @@ package com.example.demo.controller;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.Cart;
+import com.example.demo.entity.ControlLogin;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.UserLogin;
 import com.example.demo.entity.Userinfo;
 import com.example.demo.service.CartService;
 import com.example.demo.service.ControlLoginService;
-import com.example.demo.service.ControlService;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.UserLoginService;
@@ -36,8 +35,6 @@ public class LoginController {
 
 	@Autowired
 	private ControlLoginService controlLoginService;
-	@Autowired
-	private ControlService controlService;
 	@Autowired
 	private UserinfoService userinfoService;
 	@Autowired
@@ -57,32 +54,76 @@ public class LoginController {
 	}
 
 	/**
-	 * @param model　
+	 * @param model
 	 * @param loginId ログインID
-	 * @param password　パスワード
-	 * @return　ログインページへ
+	 * @param password パスワード
+	 * @return ログインページへ
 	 */
-	@RequestMapping("/login")
+	@RequestMapping(value = "/login",method = RequestMethod.POST)
 	public ModelAndView login(
 			@RequestParam(name = "userid") String loginId,
 			@RequestParam(name = "password") String password) {
 		ModelAndView mav = new ModelAndView();
-		//ログインユーザーを取得
-		Boolean flog = controlLoginService.findControlUser(loginId, password);
+		//ログインユーザー存在するかを判断
+		Boolean flog = controlLoginService.findExistLoginUser(loginId, password);
 		if ("root".equals(loginId) && flog) {
-			/*	int i = control.getLoginTimes();
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-				control.setLastLogin(timestamp);
-				control.setLoginTimes(i + 1);
-				controlService.saveControl(control);*/
 			mav.setViewName("menu");
-		} else if (userLoginService.findUserLoginById(loginId)) {
-			mav = personalInterfacecustom(loginId, password);
-			mav.setViewName("personalInterfacecustom");
+		}
+		/*else if (flog) {
+			//管理者ページへデータ送信
+			mav = manegers(loginId, password);
+			//IDとパスに合った管理者を返す
+			ControlLogin controlLogin = controlLoginService.findLoginUser(loginId, password);
+			//管理者のログイン回数と最後のログイン時間を記録
+			int i = controlLogin.getControl().getLoginTimes();
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			controlLogin.getControl().setLastLogin(timestamp);
+			controlLogin.getControl().setLoginTimes(i + 1);
+			controlLoginService.saveControlLogin(controlLogin);
+			mav.setViewName("managers");
+			}*/
+		else if (userLoginService.findUserLoginById(loginId)) {
+			//個人ページのデータ送信
+			UserLogin userLogin = userLoginService.findUserByLoginId(loginId, password);
+			String status = userLogin.getUserinfo().getStatus();
+			if ("使用中".equals(status)) {
+				mav = personalInterfacecustom(loginId, password);
+				mav.setViewName("personalInterfacecustom");
+			} else if ("使用停止".equals(status)) {
+				mav.addObject("error", "ユーザーいません");
+				mav.setViewName("error");
+			}
 		} else {
 			mav.addObject("error", "IDかパスワードが間違っています");
 			mav.setViewName("error");
 		}
+		return mav;
+	}
+
+	/**管理者ページへ戻る（なし）
+	 * @return
+	 */
+	@RequestMapping("/backManagers")
+	public ModelAndView backManagers(
+			@RequestParam(name = "loginId") String loginId,
+			@RequestParam(name = "password") String password) {
+		ModelAndView mav = new ModelAndView();
+		//loginIdとpasswordで管理者情報を取得
+		mav = manegers(loginId, password);
+		mav.setViewName("managers");
+		return mav;
+	}
+
+	/**管理者ページへデータ送信
+	 * @param loginId
+	 * @param password
+	 * @return
+	 */
+	public ModelAndView manegers(String loginId, String password) {
+		ModelAndView mav = new ModelAndView();
+		ControlLogin controlLogin = controlLoginService.findLoginUser(loginId, password);
+		//管理者ページにデータ
+		mav.addObject("controlLogin", controlLogin);
 		return mav;
 	}
 
@@ -102,8 +143,7 @@ public class LoginController {
 		return mav;
 	}
 
-	//カートに入れる
-	/**
+	/**カートに入る
 	 * @param productId
 	 * @param userId
 	 * @return
@@ -118,10 +158,9 @@ public class LoginController {
 		Integer i = product.getAccessNumber();
 		product.setAccessNumber(Integer.valueOf(i) + 1);
 		productService.save(product);
-		Boolean flog = cartService.findCartByPid(productId);
-		//カート内に商品あれば、表示
-		if (flog) {
-			List<Cart> cartList = cartService.fingCartById(userId);
+		List<Cart> cartList = cartService.fingCartById(userId);
+		//同じユーザーのカート内商品数が１以上あれば
+		if (cartList.size() > 0) {
 			mav.addObject("cartList", cartList);
 			mav.addObject("userId", userId);
 			mav.setViewName("basket");
@@ -135,7 +174,7 @@ public class LoginController {
 			cart.setProductIntro(product.getProductIntro());
 			cart.setSales(product.getSales());
 			cartService.save(cart);
-			List<Cart> cartList = cartService.fingCartById(userId);
+			cartList = cartService.fingCartById(userId);
 			mav.addObject("cartList", cartList);
 			mav.addObject("userId", userId);
 			mav.setViewName("basket");
@@ -157,16 +196,40 @@ public class LoginController {
 		return "basket";
 	}
 
+	/**個人ページへ
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("/backPerson")
 	public ModelAndView backPerson(
-			@RequestParam(name = "userId") Integer userId
-	//			@RequestParam(name = "productId") String productId
-	) {
+			@RequestParam(name = "userId") Integer userId) {
 		ModelAndView mav = new ModelAndView();
 		Userinfo userinfo = userinfoService.findUser(userId);
 		mav = personalInterfacecustom(userinfo.getUserLogin().getLoginId(), userinfo.getUserLogin().getPass());
 		mav.setViewName("personalInterfacecustom");
 		return mav;
+	}
+
+	/**購入手続きへ
+	 * @param model
+	 * @param productId
+	 * @param userId
+	 * @param sales
+	 * @return
+	 */
+	@RequestMapping("/buyProcess")
+	public String buyProcess(Model model,
+			@RequestParam(name = "productId") Integer productId,
+			@RequestParam(name = "userId") Integer userId,
+			@RequestParam(name = "sales") Double sales) {
+		List<Cart> cartList = cartService.fingCartById(userId);
+		for (Cart cart : cartList) {
+			model.addAttribute("cart", cart);
+
+		}
+		//		Product product = productService.findProductById(productId);
+		//		model.addAttribute("product",product);
+		return "buyProduct";
 	}
 
 	/**購入ボタン
@@ -180,14 +243,16 @@ public class LoginController {
 	public String buyIt(Model model,
 			@RequestParam(name = "productId") Integer productId,
 			@RequestParam(name = "userId") Integer userId,
-			@RequestParam(name = "sales") Double sales) {
+			@RequestParam(name = "sales") Double sales,
+			@RequestParam(name = "buyWay") String buyWay) {
 		Userinfo userinfo = userinfoService.findUser(userId);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Set<Order> setOrder = new HashSet<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String nowTimeStr = sdf.format(timestamp);
 		RandomOrderNumber ron = new RandomOrderNumber();
 		String randomOrderNumber = ron.random();
+		//获取
+		Product product = productService.findProductById(productId);
 		Order order = new Order();
 		order.setOrderId(nowTimeStr + randomOrderNumber);
 		order.setStatusByOrder("注文処理中");
@@ -199,21 +264,29 @@ public class LoginController {
 		order.setDateCreated(timestamp);
 		order.setPayTime(timestamp);
 		order.setUser(userinfo);
-		//		//orderとユーザーを関連つける
-		//		setOrder.add(order);
-		//		userinfo.setOrder(setOrder);
-		//		userinfoService.saveUserinfo(userinfo);
+		order.setBuyWay(buyWay);
+		//多对多关联
+		order.getProduct().add(product);
+		product.getOrder().add(order);
+		//把关系保存
 		orderService.save(order);
+		productService.save(product);
 		//商品数をマイナスする
-		Product product = productService.findProductById(productId);
 		product.setStock(product.getStock() - 1);
 		productService.save(product);
 		//カートの支払済商品をマイナス
 		cartService.deleteByProductId(productId);
-		List<Cart> cartList = cartService.fingCartById(userId);
+		List<Cart> cartList = cartService.fingCartById(Integer.valueOf(userId));
 		model.addAttribute("cartList", cartList);
 		model.addAttribute("userId", userId);
 		return "basket";
+	}
+
+	@RequestMapping("/backBasket")
+	public String backBasket(
+			@RequestParam(name = "userId") Integer userId) {
+		///intoBasket重定向
+		return "redirect:/intoBasket?userId=" + userId;
 	}
 
 	//menuに戻る

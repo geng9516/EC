@@ -12,24 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.example.demo.entity.Characters;
 import com.example.demo.entity.Control;
 import com.example.demo.entity.ControlLogin;
+import com.example.demo.service.CharacterService;
 import com.example.demo.service.ControlLoginService;
 import com.example.demo.service.ControlService;
 
 @Controller
 public class ControlController {
 
-	/*
-	管理者一覧
-	*/
-
 	@Autowired
 	private ControlService controlService;
 	@Autowired
 	private ControlLoginService controlLoginService;
+	@Autowired
+	private CharacterService characterService;
 
-	//一覧
+	/**管理者一覧
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/controlAll")
 	public String controlAll(Model model) {
 		List<Control> list = new ArrayList<>();
@@ -38,14 +41,33 @@ public class ControlController {
 		return "controlAll";
 	}
 
-	//追加
+	/**追加画面へ
+	 * @return
+	 */
 	@RequestMapping("/controlAdd")
 	public ModelAndView controlAdd() {
 		ModelAndView mav = new ModelAndView();
+		//すべての権限を取得
+		List<Characters> characterList = characterService.findAllCharacter();
+		//使用停止の権限を表示しないように
+		for (int i = 0;i<characterList.size();i++) {
+			if ("使用停止".equals(characterList.get(i).getStatusByCharacter())) {
+				characterList.remove(i);
+			}
+		}
+		mav.addObject("characterList", characterList);
 		mav.setViewName("controlAdd");
 		return mav;
 	}
 
+	/**追加
+	 * @param controlName
+	 * @param status
+	 * @param characterName
+	 * @param sex
+	 * @param tel
+	 * @return
+	 */
 	@RequestMapping(value = "/saveControl")
 	public RedirectView saveControl(
 			@RequestParam(name = "controlName") String controlName,
@@ -83,42 +105,71 @@ public class ControlController {
 	@RequestMapping("/delteControl")
 	public RedirectView delteControl(
 			@RequestParam(name = "control_id") Integer controlId,
-			@RequestParam(name = "cid") Integer cid) {
+			@RequestParam(name = "cid") Integer controlLoginId) {
 		RedirectView redirectTarget = new RedirectView();
 		ControlLogin controlLogin = new ControlLogin();
-		controlLogin = controlLoginService.findControlLoginByControlName(cid);
+		//controlLoginIdでControlLoginを取得
+		controlLogin = controlLoginService.findControlLoginById(controlLoginId);
 		controlLoginService.deleteControlLogin(controlLogin);
 		redirectTarget.setUrl("controlAll");
 		return redirectTarget;
 	}
 
-	//編集
+	/**編集画面へ
+	 * @param controlId
+	 * @return
+	 */
 	@RequestMapping("/controlEdit")
 	public ModelAndView controlEdit(
-			@RequestParam(name = "controlId") Integer controlId) {
+			@RequestParam(name = "controlId") Integer controlId
+			) {
 		ModelAndView mav = new ModelAndView();
+//		IdでControlユーザーを取得
 		Control control = controlService.findControlByControlId(controlId);
 		mav.addObject("control", control);
 		mav.setViewName("controlEdit");
 		return mav;
 	}
 
+	/**編集
+	 * @param controlId
+	 * @param controlLoginId
+	 * @param password
+	 * @param tel
+	 * @param status
+	 * @return
+	 */
 	@RequestMapping("/editControl")
 	public RedirectView editControl(
 			@RequestParam(name = "controlId") Integer controlId,
 			@RequestParam(name = "controlLoginId") Integer controlLoginId,
 			@RequestParam(name = "password") String password,
-			@RequestParam(name = "sex") Character sex,
 			@RequestParam(name = "tel") String tel,
 			@RequestParam(name = "status") String status) {
 		RedirectView redirectTarget = new RedirectView();
-		controlService.updateCotrolByid(controlId, status, sex, tel);
-		controlLoginService.updateCotrolByid(controlLoginId, password);
+		Control control = controlService.findControlByControlId(controlId);
+		ControlLogin controlLogin = controlLoginService.findControlLoginById(controlLoginId);
+		//(if)更新する内容あれば、更新するなければしない
+		if(password != null) {
+			controlLogin.setPass(password);
+			//更新した内容をDBにupdate
+			controlLoginService.saveControlLogin(controlLogin);
+		}
+		if(tel != null) {
+			control.setTel(tel);
+		}
+		if(status != null) {
+			control.setStatusByControl(status);
+		}
+		//更新した内容をDBにupdate
+		controlService.saveControl(control);
 		redirectTarget.setUrl("controlAll");
 		return redirectTarget;
 	}
 
-	//戻る
+	/**管理者一覧へ
+	 * @return
+	 */
 	@RequestMapping("/backControlAll")
 	public RedirectView backControlAll() {
 		RedirectView redirectTarget = new RedirectView();

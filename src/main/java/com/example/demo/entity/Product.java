@@ -1,15 +1,17 @@
 package com.example.demo.entity;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,15 +20,16 @@ public class Product {
 
 	private Integer id;
 	private String productType;
+	private String photo;
 	private String productIntro;
 	private String status;
 	private Double sales;
 	private Double cost;
 	private Integer stock;
-	private Integer accessNumber=0;
+	private Integer accessNumber = 0;
 	private Timestamp dateCreated;
 	private Timestamp dateModified;
-	private Order order;
+	private Set<Order> order = new HashSet<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +48,14 @@ public class Product {
 
 	public void setProductType(String productType) {
 		this.productType = productType;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	@Column(name = "product_intro")
@@ -92,6 +103,7 @@ public class Product {
 	public Integer getAccessNumber() {
 		return accessNumber;
 	}
+
 	public void setAccessNumber(Integer accessNumber) {
 		this.accessNumber = accessNumber;
 	}
@@ -114,42 +126,25 @@ public class Product {
 		this.dateModified = dateModified;
 	}
 
-	@JoinColumn(name = "order_id")
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Order getOrder() {
+	@JoinTable(name="order_product",
+			joinColumns={@JoinColumn(name="product_id", referencedColumnName="ID")},
+			inverseJoinColumns={@JoinColumn(name="order_id", referencedColumnName="ID")})
+	@ManyToMany
+	public Set<Order> getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(Set<Order> order) {
 		this.order = order;
-	}
-
-
-	public Product(Integer id, String productType, String productIntro, String status, Double sales, Double cost,
-			Integer stock, Integer accessNumber, Timestamp dateCreated, Timestamp dateModified, Order order) {
-		super();
-		this.id = id;
-		this.productType = productType;
-		this.productIntro = productIntro;
-		this.status = status;
-		this.sales = sales;
-		this.cost = cost;
-		this.stock = stock;
-		this.accessNumber = accessNumber;
-		this.dateCreated = dateCreated;
-		this.dateModified = dateModified;
-		this.order = order;
-	}
-
-	public Product() {
-		super();
 	}
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", productType=" + productType + ", productIntro=" + productIntro + ", status="
-				+ status + ", sales=" + sales + ", cost=" + cost + ", stock=" + stock + ", accessNumber=" + accessNumber
-				+ ", dateCreated=" + dateCreated + ", dateModified=" + dateModified + "]";
+		return "Product [id=" + id + ", productType=" + productType + ", photo=" + photo + ", productIntro="
+				+ productIntro + ", status=" + status + ", sales=" + sales + ", cost=" + cost + ", stock=" + stock
+				+ ", accessNumber=" + accessNumber + ", dateCreated=" + dateCreated + ", dateModified=" + dateModified
+				+ "]";
 	}
+
 
 }

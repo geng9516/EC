@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+			<table width="100%">
+				<tr>
+					<!-- <td>管理者名：</td> -->
+					<td th:text="${controlLogin.loginId}"></td>
+					<td align="center">管理者</td>
+					<td align="right">
+					<!-- str=${'managers'} -->
+						<a th:href="@{controlEdit(controlId=${controlLogin.getControl().getId()},str=${'managers'})}"><input type="button" value="編集"></a>&nbsp;&nbsp;
+						<a th:href="@{index}"><input type="button" value="ログアウト"></a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<hr>
+		<ul>
+			<li>ユーザー管理
+				<ol>
+					<li><a th:href="@{userAll(controlId=${controlLogin.getControl().getId()},str=${'managers'})}">ユーザー一覧</a></li>
+				</ol>
+			</li>
+			<li>商品管理
+				<ol>
+					<li><a th:href="@{productAll(controlId=${controlLogin.getControl().getId()},str=${'managers'})}">商品一覧</a></li>
+				</ol>
+			</li>
+			<li>注文管理
+				<ol>
+					<li><a th:href="@{orderAll(controlId=${controlLogin.getControl().getId()},str=${'managers'})}">注文一覧</a></li>
+				</ol>
+		</ul>
+	</body>
+</html>

@@ -24,28 +24,33 @@
 			</tr>
 			<form action="/searchUser">
 				<tr>
-					<td><input type="text" name="userId" placeholder="ユーザーID"> </td>
+					<td><input type="text" style="width:80px;" name="userId" placeholder="ユーザーID"> </td>
 					<td></td>
-					<td><input type="text" name="userName" placeholder="ユーザー名"></td>
-					<td><input type="text" name="nickname" placeholder="ニックネーム"></td>
-					<td><input type="text" name="tel" placeholder="電話番号"></td>
-					<td><input type="email" name="email" placeholder="メールアドレス"></td>
+					<td><input type="text" style="width:80px;" name="userName" placeholder="ユーザー名"></td>
+					<td><input type="text" style="width:80px;" name="nickname" placeholder="ニックネーム"></td>
 					<td>
-						<select name="sex">
-							<option>選択...</option>
-							<option value="女">女</option>
+						<input type="text" style="width:100px;" name="tel" placeholder="電話番号">
+					</td>
+					<td>
+						<input type="text" style="width:200px;" name="email" placeholder="メールアドレス">
+					</td>
+					<td>
+						<!-- <select name="sex">
+							<option disabled selected hidden>選択...</option>
+							<option selected="selected" value="女">女</option>
 							<option value="男">男</option>
-						</select>
+						</select> -->
 					</td>
 					<td>
 						<!-- 状態 -->
-						<select name="status">
-							<option>選択...</option>
-							<option>普通</option>
-							<option>ログイン禁止</option>
-						</select></td>
+						<!-- <select name="status">
+							<option disabled selected hidden>選択...</option>
+							<option selected="selected" value="使用中">使用中</option>
+							<option value="使用停止">使用停止</option>
+						</select> -->
+					</td>
 					<td><input type="text" name="address" placeholder="住所"></td>
-					<td><input type="date" name="birth"></td>
+					<td></td><!-- <input type="date" name="birth"> -->
 					<td></td>
 					<td></td>
 					<td align="center" ><input type="submit" value="検索"></td>
@@ -66,15 +71,15 @@
 				<td th:text="${userinfo.dateCreated}"></td>
 				<td th:text="${userinfo.dateModified}"></td>
 				<td align="center">
-					<span><input type="submit" value="詳細"></span><br/>
+					<!-- <span><input type="submit" value="詳細"></span><br/> -->
 					<span><a th:href="@{userEdit(userId=${userinfo.id})}"><input type="button" value="編集"></a></span><br/>
 					<span><a th:href="@{deleteUser(userId=${userinfo.id})}"><input type="button" value="削除"></a></span><br/>
 				</td>
 			</tr>
 		</table>
 		<div align="center">
-			<a th:href="@{menu}"><input type="button" value="戻る"></a>
-			<a th:href="@{userAdd?str=userAll}"><input type="button" value="新規追加"></a>
+				<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<a th:href="@{userAdd(str=${str})}"><input type="button" value="新規追加"></a>
 		</div>
 	</body>
 </html>

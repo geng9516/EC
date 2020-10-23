@@ -21,26 +21,40 @@
 				<th>操作</th>
 			</tr>
 			<!-- 検索 -->
-			<form action="" method="get">
+			<form action="/searchProduct" method="get">
 				<tr>
-					<td><input type="text" name="productid" placeholder="商品ID"></td>
-					<td><input type="text" name="productid" placeholder="商品タイプ"></td>
+					<td><input type="text" style=width:50px; name="productId" placeholder="商品ID"></td>
+					<td><input type="text" style=width:100px; name="productType" placeholder="商品タイプ"></td>
 					<!-- 消費の写真とリンクを<a></a>タグで挿入 -->
-					<td><input type="text" name="product_intro" placeholder="商品情報"></td>
+					<td><input type="text" style=width:100px; name="productIntro" placeholder="商品情報"></td>
 					<td></td>
-					<td><input type="text" name="sales" placeholder="売価"></td>
-					<td><input type="text" name="cost" placeholder="原価"></td>
-					<td><input type="text" name="stock" placeholder="在庫"></td>
-					<td><input type="text" name="Access_number" placeholder="アクセス回数"></td>
+					<td>
+						<input type="text" style=width:50px; name="sales1" placeholder="最小値"> ~
+						<input type="text" style=width:50px; name="sales2" placeholder="最大値">
+					</td>
+					<td>
+						<input type="text" style=width:50px; name="cost1" placeholder="最小値"> ~
+						<input type="text" style=width:50px; name="cost2" placeholder="最大値">
+					</td>
+					<td>
+						<input type="text" style=width:50px; name="stock1" placeholder="最小値"> ~
+						<input type="text" style=width:50px; name="stock2" placeholder="最大値">
+					</td>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td align="center"><input type="submit" value="検索"></td>
 				</tr>
-			</form>
-			<tr th:each="product:${productList}">
+			</form><!-- th:text="${product.productIntro}" -->
+			<tr th:each="product:${productList}" align="center">
 				<td th:text="${product.id}"></td>
 				<td th:text="${product.productType}"></td>
-				<td th:text="${product.productIntro}"></td>
+				<td >
+					<div>
+						<img th:src="${product.photo}" width="80px" >
+					</div>
+					 <ins><span th:text="${product.productIntro}"></span></ins>
+				</td>
 				<td th:text="${product.status}"></td>
 				<td th:text="${product.sales}"></td>
 				<td th:text="${product.cost}"></td>
@@ -57,7 +71,12 @@
 			</tr>
 		</table>
 		<div align="center">
-			<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<!-- <span th:if="${str == 'productAll'}"> -->
+				<a th:href="@{menu}"><input type="button" value="戻る"></a>
+			<!-- </span> -->
+			<!-- <span th:if="${str == 'managers'}">
+				<a th:href="@{backManagers(userid=${control.getControlLogin().getLoginId()},password=${control.getControlLogin().getPass()})}"><input type="button" value="戻る"></a>
+			</span> -->
 			<a th:href="@{productAdd}"><input type="button" value="新規追加"></a>
 		</div>
 	</body>

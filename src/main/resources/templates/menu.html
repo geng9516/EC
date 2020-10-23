@@ -6,10 +6,14 @@
 </head>
 <body>
 	<div>
-		<center>
+		<div align="right">
+			<a th:href="@{/index}"><input type="button" value="ログアウト" ></a>
+		</div>
+		<div align="center">
 			<h2>ショップデータ管理</h2>
-		</center>
+		</div>
 	</div>
+
 	<div class='a'>
 		<ul>
 			<li>管理権限
@@ -20,7 +24,7 @@
 			</li>
 			<li>ユーザー管理
 				<ol>
-					<li><a th:href="@{/userAll}">ユーザー一覧</a></li>
+					<li><a th:href="@{/userAll(str=${'menu'})}">ユーザー一覧</a></li>
 				</ol>
 			</li>
 			<li>商品管理
@@ -34,9 +38,6 @@
 				</ol>
 			</li>
 		</ul>
-	</div>
-	<div align="center">
-		<a th:href="@{/index}"><input type="button" value="ログアウト"></a>
 	</div>
 </body>
 </html>

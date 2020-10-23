@@ -64,7 +64,7 @@
 				<td th:text="${control.dateCreated}"></td>
 				<td align="center">
 					<span><input type="submit" value="詳細"></span><br/>
-					<span><a th:href="@{controlEdit(controlId=${control.id})}"><input type="button" value="編集"></a></span><br/>
+					<span><a th:href="@{controlEdit(controlId=${control.id},str=${'control'})}"><input type="button" value="編集"></a></span><br/>
 					<span><a th:href="@{delteControl(controlId=${control.id},cid=${control.controlLogin.id})}"></a><input type="button" value="削除"></span>
 				</td>
 			</tr>

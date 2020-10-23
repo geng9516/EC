@@ -6,9 +6,13 @@
 	</head>
 	<body>
 		<h2 align="center">商品編集</h2>
-		<form action="/editProduct">
+		<form action="/editProduct" method="post" enctype="multipart/form-data">
 			<input type="hidden" name = "productId" th:value="${product.id}">
 			<table align="center" border="1px">
+				<tr>
+					<td>写真選択</td>
+					<td ><input type="file" name="photo" id="photo"></td>
+				</tr>
 				<tr>
 					<td>商品タイプ</td>
 					<td>

@@ -8,21 +8,23 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.entity.ControlLogin;
 
 @Repository
-public interface ControlLoginRepository extends JpaRepository<ControlLogin,Integer> {
+public interface ControlLoginRepository extends JpaRepository<ControlLogin, Integer> {
 
 	@Modifying
 	@Query("delete from ControlLogin c where c.id=?1")
 	void deleteControlLoginByControlId(Integer controlName);
 
 	@Query("select c from ControlLogin c where c.id=?1")
-	ControlLogin findControlLoginByControlName(Integer name);
+	ControlLogin findControlLoginById(Integer controlLoginId);
 
 	@Modifying
 	@Query("update ControlLogin c set c.pass=?2 where c.id=?1")
-	void updateCotrolByid(Integer controlLoginId,String password);
+	void updateCotrolByid(Integer controlLoginId, String password);
 
-	//ユーザーIDとパス確認
+	//ログインユーザー存在するかを判断
+	//IDとパスに合った管理者をreturn
 	@Query("select c from ControlLogin c where c.loginId=?1 and c.pass=?2")
-	ControlLogin findControlUser(String userId,String pass);
+	ControlLogin findExistLoginUser(String userId, String pass);
+
 
 }

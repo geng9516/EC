@@ -6,8 +6,12 @@
 	</head>
 	<body>
 		<h2 align="center">商品登録</h2>
-		<form action="/saveProduct" method="get">
+		<form action="/saveProduct" method="post" enctype="multipart/form-data">
 			<table align="center" border="1px">
+				<tr>
+					<td>写真選択</td>
+					<td style="width:300px"><input type="file" name="photo" id="photo"></td>
+				</tr>
 				<tr>
 					<td>商品タイプ</td>
 					<td>

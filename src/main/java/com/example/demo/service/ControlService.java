@@ -32,6 +32,7 @@ public class ControlService {
 		return "";
 	}
 
+	//IdでControlユーザーを取得
 	public Control findControlByControlId(Integer controlId) {
 
 		return controlRepository.findControlByControlId(controlId);
@@ -41,10 +42,4 @@ public class ControlService {
 		controlRepository.updateCotrolByid(controlId,status,sex,tel);
 		return "";
 	}
-
-	/*//ログインユーザーを判断
-	public Control fingByControlName(String loginId,String password) {
-		return controlRepository.findByControlName(loginId,password);
-	}*/
-
 }

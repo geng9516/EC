@@ -18,13 +18,13 @@ import com.example.demo.service.CharacterService;
 @Controller
 public class CharacterController {
 
-	/*
-	権限一覧
-	*/
 	@Autowired
 	private CharacterService characterService;
 
-	//権限一覧へ
+	/**権限一覧
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/characterAll")
 	public String characterAll(Model model) {
 		List<Characters> list = new ArrayList<>();
@@ -33,7 +33,10 @@ public class CharacterController {
 		return "characterAll";
 	}
 
-	//削除
+	/**削除
+	 * @param characterId
+	 * @return
+	 */
 	@RequestMapping("/characterDelete")
 	public RedirectView CharacterDelete(
 			@RequestParam(name = "characterId") Integer characterId) {
@@ -103,7 +106,9 @@ public class CharacterController {
 		return redirectTarget;
 	}
 
-	//戻る
+	/**権限一覧へ戻る
+	 * @return
+	 */
 	@RequestMapping("/backCharacterAll")
 	public RedirectView backCharacterAll() {
 		RedirectView redirectTarget = new RedirectView();

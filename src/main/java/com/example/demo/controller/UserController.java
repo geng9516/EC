@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,49 +14,70 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.entity.UserLogin;
 import com.example.demo.entity.Userinfo;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserinfoService;
-import com.example.demo.util.RandomOrderNumber;
+import com.example.demo.util.PhotoAdd;
 
 @Controller
 public class UserController {
-
-	/*
-	ユーザー
-	*/
 
 	@Autowired
 	private UserinfoService userinfoService;
 	@Autowired
 	private UserLoginService userLoginService;
 
-	//一覧
+	/**商品一覧へ
+	 * @param model
+	 * @param str 新規追加画面から一覧画面へ戻るときに使う判断（引数：menu）
+	 * @return
+	 */
 	@RequestMapping("/userAll")
-	public String userAll(Model model) {
+	public String userAll(Model model,
+			@RequestParam(name = "str") String str) {
 		List<Userinfo> list = userinfoService.findUserinfos();
-
+		model.addAttribute("str", str);
 		model.addAttribute("userinfoList", list);
 		return "userAll";
 	}
 
-	//追加
+	//写真を保存用の相対path
 	@Value("${ICON_PATH}")
 	private String path;
+	//写真を読み取るときのpath
 	@Value("${PICTURE_URL}")
 	private String pictureUrl;
 
+	/**user追加画面へ
+	 * @param model
+	 * @param str
+	 * @return
+	 */
 	@RequestMapping("/userAdd")
-	public String userAdd(Model model, String str) {
+	public String userAdd(Model model,
+			@RequestParam(name = "str") String str) {
 		model.addAttribute("str", str);
 		return "userAdd";
 	}
 
+	/**追加
+	 * @param str
+	 * @param photo
+	 * @param userName
+	 * @param nickName
+	 * @param tel
+	 * @param email
+	 * @param sex
+	 * @param address
+	 * @param birth
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-	public RedirectView saveUser(
+	public String saveUser(
+			Model model,
 			@RequestParam(name = "str") String str,
 			@RequestParam(name = "photo") MultipartFile photo,
 			@RequestParam(name = "username") String userName,
@@ -70,37 +88,18 @@ public class UserController {
 			@RequestParam(name = "address") String address,
 			@RequestParam(name = "birth") String birth,
 			@RequestParam(name = "password") String password) {
-		File newName = null;
-		System.out.println(photo);
-		if (!photo.isEmpty()) {
-			try {
-				RandomOrderNumber ron = new RandomOrderNumber();
-				String name = ron.random();
-				File oldName = new File(photo.getOriginalFilename());
-				System.out.println(oldName);
-				newName = new File(name + ".jpg");
-				oldName.renameTo(newName);
-				byte[] bytes = photo.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path + newName)));
-				stream.write(bytes);
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		RedirectView redirectTarget = new RedirectView();
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Userinfo userinfo = new Userinfo();
 		UserLogin userLogin = new UserLogin();
+		File newName = PhotoAdd.AddPhoto(photo, path);
 		userinfo.setPhoto(pictureUrl + newName.toString());
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		userinfo.setUserName(userName);
 		userinfo.setUserNickname(nickName);
 		userinfo.setTel(tel);
 		userinfo.setEmail(email);
 		userinfo.setSex(sex);
 		userinfo.setAddress(address);
-		userinfo.setStatus("普通");
+		userinfo.setStatus("使用中");
 		userinfo.setBirth(Date.valueOf(birth));
 		userinfo.setDateCreated(timestamp);
 		userLogin.setLoginId(nickName);
@@ -110,30 +109,33 @@ public class UserController {
 		userLogin.setUserinfo(userinfo);
 		userinfoService.saveUserinfo(userinfo);
 		userLoginService.saveUserLogin(userLogin);
-		if ("userAll".equals(str)) {
-			redirectTarget.setUrl("userAll");
+		String s = "";
+		if ("menu".equals(str)) {
+			s = "redirect:/userAll?str=" + str;
 		} else if ("login".equals(str)) {
-			redirectTarget.setUrl("index");
+			s = "redirect:/index";
 		}
-		return redirectTarget;
+		return s;
 	}
 
-	//
-	/*/削除
+	/**削除
 	 * 默认情况下, 若删除 1 的一端, 则会先把关联的 n 的一端的外键置空, 然后进行删除.
 	 * 可以通过 @OneToMany 的 cascade 属性来修改默认的删除策略.
 	 * cascade = CascadeType.REMOVE
 	 */
 	@RequestMapping("deleteUser")
-	public RedirectView deleteUser(Integer userId) {
+	public String deleteUser(Model model, Integer userId) {
 		Userinfo userinfo = userinfoService.findUser(userId);
-		userinfoService.deleteUser(userinfo);
-		RedirectView redirectTarget = new RedirectView();
-		redirectTarget.setUrl("userAll");
-		return redirectTarget;
+		userinfo.setStatus("使用停止");
+		userinfoService.saveUserinfo(userinfo);
+		return "redirect:/userAll?str=" + "menu";
 	}
 
-	//編集
+	/**編集画面へ
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping("/userEdit")
 	public String userEdit(Model model,
 			@RequestParam(name = "userId") Integer userId) {
@@ -142,86 +144,117 @@ public class UserController {
 		return "userEdit";
 	}
 
+	/**編集
+	 * @param userId
+	 * @param photo
+	 * @param tel
+	 * @param email
+	 * @param address
+	 * @param birth
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping(value = "/editUser", method = RequestMethod.POST)
-	public RedirectView editUser(
+	public String editUser(
 			@RequestParam(name = "userId") Integer userId,
 			@RequestParam(name = "photo") MultipartFile photo,
 			@RequestParam(name = "tel") String tel,
 			@RequestParam(name = "email") String email,
 			@RequestParam(name = "address") String address,
-			@RequestParam(name = "birth") String birth,
+			@RequestParam(name = "status") String status,
 			@RequestParam(name = "password") String password) {
 		Userinfo userinfo = userinfoService.findUser(userId);
-
-		File newName = null;
 		if (!photo.isEmpty()) {
-			try {
-				File oldName = new File(photo.getOriginalFilename());
-				newName = new File(tel + ".jpg");
-				oldName.renameTo(newName);
-				byte[] bytes = photo.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path + newName)));
-				stream.write(bytes);
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				userinfo.setPhoto(pictureUrl + newName.toString());
-			}
+			File newName = PhotoAdd.AddPhoto(photo, path);
+			userinfo.setPhoto(pictureUrl + newName.toString());
 		}
+		//更新時間を追加
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		userinfo.setTel(tel);
-		userinfo.setEmail(email);
-		userinfo.setAddress(address);
-		userinfo.setBirth(Date.valueOf(birth));
 		userinfo.setDateModified(timestamp);
-		userinfo.getUserLogin().setPass(password);
-		//		userinfo.setUserLogin(userLogin);
+
+		if (tel != null) {
+			userinfo.setTel(tel);
+		}
+		if (email != null) {
+			userinfo.setEmail(email);
+		}
+		if (address != null) {
+			userinfo.setAddress(address);
+		}
+		if (!password.isEmpty()) {
+			userinfo.getUserLogin().setPass(password);
+		}
+		if (status != null) {
+			userinfo.setStatus(status);
+		}
 		//userinfoとuserLoginを関連つける
 		userinfoService.saveUserinfo(userinfo);
-		RedirectView redirectTarget = new RedirectView();
-		redirectTarget.setUrl("userAll");
-		return redirectTarget;
+		//引数にmenuが必要
+		return "redirect:/userAll?str=" + "menu";
 	}
 
+	/**検索
+	 * @param id
+	 * @param userName
+	 * @param userNickname
+	 * @param tel
+	 * @param email
+	 * @param sex
+	 * @param status
+	 * @param address
+	 * @param birth
+	 * @return
+	 */
 	@RequestMapping("/searchUser")
-	public RedirectView searchUser(
+	public String searchUser(Model model,
 			@RequestParam(name = "userId") Integer id,
-			@RequestParam(name = "userName") Integer userName,
-			@RequestParam(name = "nickname") Integer userNickname,
-			@RequestParam(name = "tel") Integer tel,
-			@RequestParam(name = "email") Integer email,
-			@RequestParam(name = "sex") Integer sex,
-			@RequestParam(name = "status") Integer status,
-			@RequestParam(name = "address") Integer address,
-			@RequestParam(name = "birth") Integer birth) {
-		System.out.println(id+"======================");
-		RedirectView redirectTarget = new RedirectView();
-		List<Object> list = new ArrayList<>();
-		list.add(id);
-		list.add(userName);
-		list.add(userNickname);
-		list.add(tel);
-		list.add(email);
-		list.add(sex);
-		list.add(status);
-		list.add(address);
-		list.add(birth);
-		for(Object o:list) {
-			if(o != null) {
-				System.out.println(o);
+			@RequestParam(name = "userName") String userName,
+			@RequestParam(name = "nickname") String userNickname,
+			@RequestParam(name = "tel") String tel,
+			@RequestParam(name = "email") String email,
+			@RequestParam(name = "address") String address) {
+		List<Userinfo> userinfoList = new ArrayList<>();
+		if (id != null) {
+			//id曖昧検索
+			userinfoList = userinfoService.findAllById(id);
+			//idとuserNameでとどっちに合った曖昧検索
+			if (id != null && !userName.isEmpty()) {
+				userinfoList = userinfoService.findAllByAnything(id, userName);
 			}
+		} else if (!userName.isEmpty()) {
+			//userNameで曖昧検索
+			userinfoList = userinfoService.findAllByUserName(userName);
+		} else if (!userNickname.isEmpty()) {
+			//ニックネームで曖昧検索
+			userinfoList = userinfoService.findAllByUserNickName(userNickname);
+		} else if (!tel.isEmpty()) {
+			//telで曖昧検索
+			userinfoList = userinfoService.findAllByTel(tel);
+		} else if (!email.isEmpty()) {
+			//emailで曖昧検索
+			userinfoList = userinfoService.findAllByEmail(email);
+		} else if (!address.isEmpty()) {
+			//addressで曖昧検索
+			userinfoList = userinfoService.findAllByAddress(address);
+		} else {
+			//全検索
+			userinfoList = userinfoService.findUserinfos();
 		}
-		redirectTarget.setUrl("userAll");
-		return redirectTarget;
+		model.addAttribute("userinfoList", userinfoList);
+		model.addAttribute("str","menu");
+		return "userAll";
 	}
 
+	/**一覧へ戻る
+	 * @param meodel
+	 * @param str
+	 * @return
+	 */
 	@RequestMapping("/backUserAll")
-	public RedirectView backUserAll() {
-		RedirectView redirectTarget = new RedirectView();
-		redirectTarget.setUrl("userAll");
-		return redirectTarget;
+	public String backUserAll(Model meodel,
+			@RequestParam(name = "str") String str) {
+		//userAllにstrのパラメーターが必須
+		return "redirect:/userAll?str=" + str;
 	}
 
 }

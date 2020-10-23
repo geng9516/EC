@@ -24,8 +24,9 @@
 				<tr>
 					<td>権限タイプ</td>
 					<td>
-						<select name="characterName">
-							<option>管理者</option>
+						<select name="characterName" >
+						<!-- 権限追加したたびに内容も更新できる -->
+							<option th:each="character:${characterList}" th:text="${character.characterName}">管理者</option>
 						</select>
 					</td>
 				<tr>

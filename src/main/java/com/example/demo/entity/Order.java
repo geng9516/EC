@@ -1,9 +1,9 @@
 package com.example.demo.entity;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +23,8 @@ public class Order {
 	private String orderId;
 	private String statusByOrder;
 	private String statusByBuy;
+	//支払方法
+	private String buyWay;
 	private Double total;
 	private Double payment;
 	private String address;
@@ -34,7 +36,7 @@ public class Order {
 	//確認時間
 	private Timestamp ConfirmationTime;
 	private Userinfo user;
-	private Set<Product> product;
+	private Set<Product> product = new HashSet<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +48,14 @@ public class Order {
 		this.id = id;
 	}
 
+	public String getBuyWay() {
+		return buyWay;
+	}
+
+	public void setBuyWay(String buyWay) {
+		this.buyWay = buyWay;
+	}
+
 	public String getOrderId() {
 		return orderId;
 	}
@@ -54,7 +64,7 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-	@Column(name="statusbyorder")
+	@Column(name = "statusbyorder")
 	public String getStatusByOrder() {
 		return statusByOrder;
 	}
@@ -63,7 +73,7 @@ public class Order {
 		this.statusByOrder = statusByOrder;
 	}
 
-	@Column(name="statusbybuy")
+	@Column(name = "statusbybuy")
 	public String getStatusByBuy() {
 		return statusByBuy;
 	}
@@ -96,7 +106,7 @@ public class Order {
 		this.address = address;
 	}
 
-	@Column(name="numberbyorder")
+	@Column(name = "numberbyorder")
 	public Integer getNumberByOrder() {
 		return numberByOrder;
 	}
@@ -105,7 +115,7 @@ public class Order {
 		this.numberByOrder = numberByOrder;
 	}
 
-	@Column(name="date_created")
+	@Column(name = "date_created")
 	public Timestamp getDateCreated() {
 		return dateCreated;
 	}
@@ -114,7 +124,7 @@ public class Order {
 		this.dateCreated = dateCreated;
 	}
 
-	@Column(name="date_modified")
+	@Column(name = "date_modified")
 	public Timestamp getDateModified() {
 		return dateModified;
 	}
@@ -123,7 +133,7 @@ public class Order {
 		this.dateModified = dateModified;
 	}
 
-	@Column(name="pay_time")
+	@Column(name = "pay_time")
 	public Timestamp getPayTime() {
 		return payTime;
 	}
@@ -132,7 +142,7 @@ public class Order {
 		this.payTime = payTime;
 	}
 
-	@Column(name="confirmation_time")
+	@Column(name = "confirmation_time")
 	public Timestamp getConfirmationTime() {
 		return ConfirmationTime;
 	}
@@ -151,7 +161,7 @@ public class Order {
 		this.user = user;
 	}
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@ManyToMany(mappedBy="order")
 	public Set<Product> getProduct() {
 		return product;
 	}
@@ -160,37 +170,12 @@ public class Order {
 		this.product = product;
 	}
 
-	public Order(Integer id, String orderId, String statusByOrder, String statusByBuy, Double total, Double payment,
-			String address, Integer numberByOrder, Timestamp dateCreated, Timestamp dateModified, Timestamp payTime,
-			Timestamp confirmationTime, Userinfo user, Set<Product> product) {
-		super();
-		this.id = id;
-		this.orderId = orderId;
-		this.statusByOrder = statusByOrder;
-		this.statusByBuy = statusByBuy;
-		this.total = total;
-		this.payment = payment;
-		this.address = address;
-		this.numberByOrder = numberByOrder;
-		this.dateCreated = dateCreated;
-		this.dateModified = dateModified;
-		this.payTime = payTime;
-		ConfirmationTime = confirmationTime;
-		this.user = user;
-		this.product = product;
-	}
-
-	public Order() {
-		super();
-	}
-
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", orderId=" + orderId + ", statusByOrder=" + statusByOrder + ", statusByBuy="
-				+ statusByBuy + ", total=" + total + ", payment=" + payment + ", address=" + address
-				+ ", numberByOrder=" + numberByOrder + ", dateCreated=" + dateCreated + ", dateModified=" + dateModified
-				+ ", payTime=" + payTime + ", ConfirmationTime=" + ConfirmationTime + ", product=" + product + "]";
+				+ statusByBuy + ", buyWay=" + buyWay + ", total=" + total + ", payment=" + payment + ", address="
+				+ address + ", numberByOrder=" + numberByOrder + ", dateCreated=" + dateCreated + ", dateModified="
+				+ dateModified + ", payTime=" + payTime + ", ConfirmationTime=" + ConfirmationTime + "]";
 	}
-
 
 }

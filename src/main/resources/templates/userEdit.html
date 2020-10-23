@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html cmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 		<title></title>
@@ -7,7 +7,7 @@
 	<body>
 		<h2 align="center">ユーザー情報編集</h2>
 		<form action="editUser" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="userId" th:value="${userinfo.id}">
+		<input type="text" name="userId" th:value="${userinfo.id}">
 			<table align="center" border="1px">
 				<tr>
 					<td>写真選択</td>
@@ -19,7 +19,7 @@
 				</tr>
 				<tr>
 					<td>ニックネーム</td>
-					<td><input type="text" disabled name="nickname" th:value="${userinfo.userNickname}"></td>
+					<td><input type="text" disabled th:value="${userinfo.userNickname}"></td>
 				</tr>
 				<tr>
 					<td>電話番号</td>
@@ -38,8 +38,15 @@
 					<td><input type="text" name="address" th:value="${userinfo.address}"></td>
 				</tr>
 				<tr>
-					<td>誕生日</td>
-					<td><input type="date" name="birth"></td>
+					<td>状態</td>
+					<td>
+						<!-- 状態 -->
+						<select name="status">
+							<!-- <option disabled selected hidden>選択...</option> -->
+							<option>使用中</option>
+							<option>使用停止</option>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<td>パスワード</td>
@@ -51,7 +58,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<a th:href="@{backUserAll}"><input type="button" value="戻る"></a>
+						<a th:href="@{backUserAll(str=${'menu'})}"><input type="button" value="戻る"></a>
 						<input type="submit" value="保存">
 						<input type="reset" value="リセット">
 					</td>
