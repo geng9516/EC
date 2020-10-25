@@ -15,5 +15,9 @@ public interface UserLoginRepository extends JpaRepository<UserLogin,Integer>{
 	//判断
 	@Query("select u from UserLogin u where u.loginId=?1")
 	UserLogin findUserLoginById(String userId);
+
+	//LoginIdでuserLoginを取得
+	@Query("select u from UserLogin u where u.loginId=?1")
+	UserLogin findUserLoginByLoginId(String userLoginId);
 }
 

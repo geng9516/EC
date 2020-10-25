@@ -14,13 +14,13 @@
 				<th>更新日時</th>
 				<th>操作</th>
 			</tr>
-			<form>
+			<!-- <form>
 				<tr>
 					<td><input type="text" name="charactername" placeholder="権限名"></td>
 					<td>
-						<!-- 状態 -->
+						状態
 						<select name="status">
-							<option>選択...</option>
+							<option selected hidden>選択...</option>
 							<option>使用中</option>
 							<option>使用停止</option>
 						</select>
@@ -29,7 +29,7 @@
 					<td></td>
 					<td align="center"><input type="submit" value="検索"></td>
 				</tr>
-			</form>
+			</form> -->
 			<tr th:each="character:${characterList}">
 				<h th:hidden="${character.id}"></h>
 				<td th:text="${character.characterName}"></td>
@@ -37,7 +37,7 @@
 				<td th:text="${character.dateCreated}"></td>
 				<td th:text="${character.dateModified}"></td>
 				<td align="center">
-					<span><input type="submit" value="詳細"></span><br/>
+					<!-- <span><input type="submit" value="詳細"></span><br/> -->
 					<span><a th:href="@{characterEdit(characterId=${character.id},characterName=${character.characterName})}"><input type="button" value="編集"></a></span><br/>
 					<span><a th:href="@{characterDelete(characterId=${character.id})}"><input type="button" value="削除"></a></span>
 					<!-- <span><input type="button" value="削除"></span> -->

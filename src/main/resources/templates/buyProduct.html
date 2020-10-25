@@ -20,13 +20,13 @@
 				<tr>
 					<td>支払方法</td>
 					<td>
-						<input type="radio" name="buyWay" value="クレジットカード" />クレジットカード<br />
+						<input type="radio" name="buyWay" value="クレジットカード" checked="checked"/>クレジットカード<br />
 						<input type="radio" name="buyWay" value="銀行振込" />銀行振込
 					</td>
 				</tr>
 				<tr>
 					<td>総額</td>
-					<td><input type="text" readonly="readonly" name="sales" th:value="${cart.sales}"></td>
+					<td><input type="text" readonly="readonly" name="sales" th:value="${cart.sales * cart.number}"></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><a th:href="@{backBasket(userId=${cart.uId})}"><input type="button" value="戻る"></a>

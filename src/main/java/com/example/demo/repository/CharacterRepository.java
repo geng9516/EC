@@ -17,7 +17,7 @@ public interface CharacterRepository extends JpaRepository<Characters, Integer> 
 	void setCharacterById(String characterName, String status, Timestamp timestamp);
 
 	@Query("select c from Characters c where c.id=?1")
-	Characters findCharacterByCharacterName(String characterName);
+	Characters findbyCharacterId(Integer characterId);
 
 	@Modifying
 	@Query("delete from Characters c where c.id=?1")

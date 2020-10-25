@@ -38,4 +38,9 @@ public class UserLoginService {
 		return flog;
 	}
 
+	//LoginIdでuserLoginを取得
+	public UserLogin findUserLoginByLoginId(String userLoginId) {
+		return loginRepository.findUserLoginByLoginId(userLoginId);
+	}
+
 }

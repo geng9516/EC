@@ -37,7 +37,8 @@ public class CharacterService {
 		return "";
 	}
 
-	public Characters findCharacterByCharacterName(String characterName) {
-		return characterRepository.findCharacterByCharacterName(characterName);
+	public Characters findbyCharacterId(Integer characterName) {
+		return characterRepository.findbyCharacterId(characterName);
 	}
+
 }

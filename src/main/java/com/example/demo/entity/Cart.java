@@ -15,6 +15,16 @@ public class Cart {
 	private String productType;
 	private String productIntro;
 	private Double sales;
+	private Integer number;
+
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
 	@Id
 	@GeneratedValue

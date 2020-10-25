@@ -88,7 +88,7 @@ public class ControlController {
 		control.setControlLogin(controlLogin);
 		controlLogin.setLoginId(controlName);
 		controlLogin.setControl(control);
-		controlLogin.setPass(controlName);
+		controlLogin.setPass("0000");
 		controlService.saveControl(control);
 		redirectTarget.setUrl("controlAll");
 		return redirectTarget;
@@ -104,13 +104,12 @@ public class ControlController {
 	 */
 	@RequestMapping("/delteControl")
 	public RedirectView delteControl(
-			@RequestParam(name = "control_id") Integer controlId,
-			@RequestParam(name = "cid") Integer controlLoginId) {
+			@RequestParam(name = "controlId") Integer controlId,
+			@RequestParam(name = "cId") Integer controlLoginId) {
 		RedirectView redirectTarget = new RedirectView();
-		ControlLogin controlLogin = new ControlLogin();
-		//controlLoginIdでControlLoginを取得
-		controlLogin = controlLoginService.findControlLoginById(controlLoginId);
-		controlLoginService.deleteControlLogin(controlLogin);
+		Control control = controlService.findControlByControlId(controlId);
+		control.setStatusByControl("退職");
+		controlService.saveControl(control);
 		redirectTarget.setUrl("controlAll");
 		return redirectTarget;
 	}

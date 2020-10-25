@@ -58,4 +58,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	//在庫で曖昧検索
 	@Query("select p from Product p where p.stock between concat(:stock1,'%') and concat(:stock2,'%')")
 	List<Product> findAllByStock(@Param("stock1")Integer stock1,@Param("stock2")Integer stock2);
+
+	//すべての要素で曖昧検索
+	@Query("select p from Product p where p.id like concat(:text,'%') or p.productType like concat(:text,'%') or p.productIntro like concat(:text,'%') or p.sales like concat(:text,'%')")
+	List<Product> findAllProductByAnything(@Param("text")String text);
 }

@@ -41,7 +41,10 @@ public class CharacterController {
 	public RedirectView CharacterDelete(
 			@RequestParam(name = "characterId") Integer characterId) {
 		RedirectView redirectTarget = new RedirectView();
-		characterService.deleteCharacterByCharacterName(characterId);
+//		characterService.deleteCharacterByCharacterName(characterId);
+		Characters character = characterService.findbyCharacterId(characterId);
+		character.setStatusByCharacter("使用停止");
+		characterService.saveCharacter(character);
 		redirectTarget.setUrl("characterAll");
 		return redirectTarget;
 	}

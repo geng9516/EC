@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	private UserLoginService userLoginService;
 
-	/**商品一覧へ
+	/**ユーザー一覧へ
 	 * @param model
 	 * @param str 新規追加画面から一覧画面へ戻るときに使う判断（引数：menu）
 	 * @return
@@ -90,17 +90,25 @@ public class UserController {
 			@RequestParam(name = "password") String password) {
 		Userinfo userinfo = new Userinfo();
 		UserLogin userLogin = new UserLogin();
-		File newName = PhotoAdd.AddPhoto(photo, path);
-		userinfo.setPhoto(pictureUrl + newName.toString());
+		if (!photo.isEmpty()) {
+			File newName = PhotoAdd.AddPhoto(photo, path);
+			userinfo.setPhoto(pictureUrl + newName.toString());
+		}
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		userinfo.setUserName(userName);
 		userinfo.setUserNickname(nickName);
-		userinfo.setTel(tel);
+		if (!tel.isEmpty()) {
+			userinfo.setTel(tel);
+		}
 		userinfo.setEmail(email);
 		userinfo.setSex(sex);
-		userinfo.setAddress(address);
+		if (!address.isEmpty()) {
+			userinfo.setAddress(address);
+		}
 		userinfo.setStatus("使用中");
-		userinfo.setBirth(Date.valueOf(birth));
+		if (!birth.isEmpty()) {
+			userinfo.setBirth(Date.valueOf(birth));
+		}
 		userinfo.setDateCreated(timestamp);
 		userLogin.setLoginId(nickName);
 		userLogin.setPass(password);
@@ -129,6 +137,58 @@ public class UserController {
 		userinfo.setStatus("使用停止");
 		userinfoService.saveUserinfo(userinfo);
 		return "redirect:/userAll?str=" + "menu";
+	}
+
+	/**個人ページから個人情報の編集
+	 * @param model
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("/userPageInfoEdit")
+	public String userPageInfoEdit(Model model,
+			@RequestParam(name = "userId") Integer userId) {
+		Userinfo userinfo = userinfoService.findUser(userId);
+		model.addAttribute("userinfo", userinfo);
+		return "userPageInfoEdit";
+	}
+
+	@RequestMapping(value = "/editUserPageInfo", method = RequestMethod.POST)
+	public String editUserPageInfo(
+			@RequestParam(name = "userId") Integer userId,
+			@RequestParam(name = "photo") MultipartFile photo,
+			@RequestParam(name = "tel") String tel,
+			@RequestParam(name = "email") String email,
+			@RequestParam(name = "address") String address,
+			@RequestParam(name = "status") String status,
+			@RequestParam(name = "password") String password) {
+		Userinfo userinfo = userinfoService.findUser(userId);
+		if (!photo.isEmpty()) {
+			File newName = PhotoAdd.AddPhoto(photo, path);
+			userinfo.setPhoto(pictureUrl + newName.toString());
+		}
+		//更新時間を追加
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		userinfo.setDateModified(timestamp);
+
+		if (tel != null) {
+			userinfo.setTel(tel);
+		}
+		if (email != null) {
+			userinfo.setEmail(email);
+		}
+		if (address != null) {
+			userinfo.setAddress(address);
+		}
+		if (!password.isEmpty()) {
+			userinfo.getUserLogin().setPass(password);
+		}
+		if (status != null) {
+			userinfo.setStatus(status);
+		}
+		//userinfoとuserLoginを関連つける
+		userinfoService.saveUserinfo(userinfo);
+		//引数にmenuが必要
+		return "redirect:/backPerson?userId=" + userId;
 	}
 
 	/**編集画面へ
@@ -241,7 +301,7 @@ public class UserController {
 			userinfoList = userinfoService.findUserinfos();
 		}
 		model.addAttribute("userinfoList", userinfoList);
-		model.addAttribute("str","menu");
+		model.addAttribute("str", "menu");
 		return "userAll";
 	}
 

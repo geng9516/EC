@@ -63,7 +63,7 @@
 				<td th:text="${product.dateCreated}"></td>
 				<td th:text="${product.dateModified}"></td>
 				<td align="center">
-					<span><input type="submit" value="詳細"></span><br />
+					<!-- <span><input type="submit" value="詳細"></span><br /> -->
 					<span><a th:href="@{productEdit(productId=${product.id})}"><input type="button" value="編集"></a></span><br />
 					<span><a th:href="@{deleteProduct(productId=${product.id})}"><input type="button" value="削除"></a></span><br />
 					<!-- <span><input type="button" value="削除"></span> -->

@@ -14,7 +14,7 @@ public class PhotoAdd {
 
 	public static File AddPhoto(MultipartFile photo,String path) {
 		File newName = null;
-		if (!photo.isEmpty()) {
+//		if (!photo.isEmpty()) {
 			try {
 				RandomOrderNumber ron = new RandomOrderNumber();
 				String name = ron.random();
@@ -29,7 +29,7 @@ public class PhotoAdd {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+//		}
 		return newName;
 	}
 }

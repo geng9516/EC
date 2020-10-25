@@ -83,4 +83,9 @@ public class ProductService {
 		return productRepository.findAllByStock(stock1,stock2);
 	}
 
+	//すべての要素で曖昧検索
+	public List<Product> findAllProductByAnything(String text) {
+		return productRepository.findAllProductByAnything(text);
+	}
+
 }

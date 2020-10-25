@@ -3,24 +3,50 @@
 <head>
 <meta charset="utf-8">
 <title></title>
+<style type="text/css">
+span {
+	color: red;
+	font-size: 12px;
+}
+</style>
 </head>
 <body>
+	<!-- staticからuserinfo.jsファイルをインポート -->
+	<script type="text/javascript" src="js/userinfo.js">
+	</script>
+
 	<h2 align="center">ユーザー登録</h2>
-	<form action="/saveUser" method="post" enctype="multipart/form-data">
+	<form id="userForm" method="post"
+		enctype="multipart/form-data">
 		<input type="hidden" name="str" th:value="${str}">
 		<table th:align="center" th:border="1px">
 			<tr>
 				<td>写真選択</td>
-				<td style="width:300px"><input type="file" name="photo" id="photo"></td>
+				<td style="width: 300px"><input type="file" name="photo"
+					id="photo"></td>
 			</tr>
 			<tr>
 				<td>ユーザー名</td>
-				<td><input type="text" name="username"></td>
+				<td>
+					<div>
+						<span id="usernameError"></span>
+					</div>
+					<div>
+						<input type="text" name="username" id="username">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td>ニックネーム</td>
-				<td><input type="text" name="nickname" id="nickname"><span
-					id="nicknameError"></span></td>
+				<td>
+					<div>
+						<span id="nicknameError"></span><span id="nicknameError"></span>
+					</div>
+					<div>
+						<input type="text" name="nickname" id="nickname">
+					</div>
+
+				</td>
 			</tr>
 			<tr>
 				<td>電話番号</td>
@@ -28,12 +54,20 @@
 			</tr>
 			<tr>
 				<td>メールアドレス</td>
-				<td><input type="email" name="email"></td>
+				<td>
+					<div>
+						<span id="emailError"></span>
+					</div>
+					<div>
+						<input type="email" name="email" id="email">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td>性別</td>
-				<td><input type="radio" name="sex" value="男">男
-				<input type="radio" name="sex" value="女">女</td>
+				<td><input type="radio" name="sex" id="sex" value="男"
+					checked="checked">男 <input type="radio" name="sex" id="sex"
+					value="女">女</td>
 			</tr>
 			<tr>
 				<td>住所</td>
@@ -45,11 +79,18 @@
 			</tr>
 			<tr>
 				<td>パスワード</td>
-				<td><input type="password" name="password" id="pass1"></td>
+				<td><input type="password" name="password" id="password1"></td>
 			</tr>
 			<tr>
 				<td>パスワード確認</td>
-				<td><input type="password" id="pass1"><span id="pwdError"></span></td>
+				<td>
+					<div>
+						<span id="pwdError"></span>
+					</div>
+					<div>
+						<input type="password" id="password2">
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
@@ -60,8 +101,8 @@
 						th:href="@{index}"><input type="button" value="戻る"></a>
 				</span> <!-- managersのユーザー一覧へ --> <!-- <span th:if="${str == 'managers'}">
 							<a th:href="@{backUserAll}"><input type="button" value="戻る"></a>
-						</span> --> <input type="submit" value="保存"> <input
-					type="reset" value="リセット">
+						</span> --> <input type="submit" value="保存" id="submitBtn">
+					<input type="reset" value="リセット">
 				</td>
 			</tr>
 		</table>

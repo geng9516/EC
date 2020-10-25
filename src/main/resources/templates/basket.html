@@ -13,6 +13,7 @@
 					<th>商品タイプ</th>
 					<th>商品情報</th>
 					<th>売価</th>
+					<th>個数</th>
 					<th>操作</th>
 				</tr>
 				<tr th:each="cart:${cartList}">
@@ -21,8 +22,10 @@
 					<td th:text="${cart.productType}"></td>
 					<td th:text="${cart.productIntro}"></td>
 					<td th:text="${cart.sales}"></td>
+					<td th:text="${cart.number}"></td>
 					<td align="center">
-						<span><a th:href="@{buyProcess(productId=${cart.pId},userId=${userId},sales=${cart.sales})}"><input type="button" value="購入手続きへ"></a></span><br />
+						<span><a th:href="@{delectCartItem(productId=${cart.pId},userId=${userId})}"><input type="button" value="削除"></a></span>
+						<span><a th:href="@{buyProcess(productId=${cart.pId},userId=${userId},sales=${cart.sales},number=${cart.number})}"><input type="button" value="購入手続きへ"></a></span><br />
 					</td>
 				</tr>
 			</table>

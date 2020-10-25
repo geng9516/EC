@@ -9,8 +9,10 @@
 			<table width="100%">
 				<tr>
 					<td th:text="${userLogin.userinfo.userName}"></td>
-					<td align="right"><a th:href="@{intoBasket(userId=${userLogin.userinfo.id})}"><input type="button" value="カート"></a>&nbsp;&nbsp;
-					<a th:href="@{/index}"><input type="button" value="ログアウト"></a>
+					<td align="right">
+					<a th:href="@{intoBasket(userId=${userLogin.userinfo.id})}"><input type="button" value="カート"></a>&nbsp;&nbsp;
+					<a th:href="@{userPageInfoEdit(userId=${userLogin.userinfo.id})}"><input type="button" value="個人情報"></a>&nbsp;&nbsp;
+					<a th:href="@{index}"><input type="button" value="ログアウト"></a>
 					</td>
 				</tr>
 			</table>
@@ -18,7 +20,8 @@
 		<hr>
 		<div>
 			<div align="center">
-				<form>
+				<form action="/searchItem">
+					<input type="hidden" name="loginId" th:value="${userLogin.loginId}">
 					<input type="text" name="text">
 					<input type="submit" value="検索">
 				</form>

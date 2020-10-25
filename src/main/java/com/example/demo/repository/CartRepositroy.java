@@ -22,4 +22,13 @@ public interface CartRepositroy extends JpaRepository<Cart,Integer>{
 	@Modifying
 	@Query("delete from Cart c where c.pId=?1")
 	void deleteByProductId(Integer productId);
+
+	//個人のカート内容の特定商品を削除
+	@Modifying
+	@Query("delete from Cart c where c.pId=?1 and c.uId=?2")
+	void deleteByProductIdAndUserId(Integer productId, Integer userId);
+
+	//userIdで特定の商品を取得
+	@Query("select c from Cart c where c.pId=?1 and c.uId=?2")
+	Cart findByProductIdAndUserId(Integer productId, Integer userId);
 }

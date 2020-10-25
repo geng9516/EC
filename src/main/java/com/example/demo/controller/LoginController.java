@@ -59,7 +59,7 @@ public class LoginController {
 	 * @param password パスワード
 	 * @return ログインページへ
 	 */
-	@RequestMapping(value = "/login",method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(
 			@RequestParam(name = "userid") String loginId,
 			@RequestParam(name = "password") String password) {
@@ -85,11 +85,14 @@ public class LoginController {
 		else if (userLoginService.findUserLoginById(loginId)) {
 			//個人ページのデータ送信
 			UserLogin userLogin = userLoginService.findUserByLoginId(loginId, password);
-			String status = userLogin.getUserinfo().getStatus();
-			if ("使用中".equals(status)) {
-				mav = personalInterfacecustom(loginId, password);
-				mav.setViewName("personalInterfacecustom");
-			} else if ("使用停止".equals(status)) {
+			if (userLogin != null) {
+				//ユーザー存在するし、ステータスが使用中
+				String status = userLogin.getUserinfo().getStatus();
+				if ("使用中".equals(status)) {
+					mav = personalInterfacecustom(loginId, password);
+					mav.setViewName("personalInterfacecustom");
+				}
+			} else {
 				mav.addObject("error", "ユーザーいません");
 				mav.setViewName("error");
 			}
@@ -98,6 +101,20 @@ public class LoginController {
 			mav.setViewName("error");
 		}
 		return mav;
+	}
+
+	@RequestMapping("/searchItem")
+	public String searchItem(Model model,
+			@RequestParam(name = "loginId") String userLoginId,
+			@RequestParam(name = "text") String text) {
+		//LoginIdでuserLoginを取得
+		UserLogin userLogin = userLoginService.findUserLoginByLoginId(userLoginId);
+		System.out.println(userLogin);
+		List<Product> productList = productService.findAllProductByAnything(text);
+		System.out.println(productList);
+		model.addAttribute("userLogin", userLogin);
+		model.addAttribute("productList", productList);
+		return "personalInterfacecustom";
 	}
 
 	/**管理者ページへ戻る（なし）
@@ -133,9 +150,9 @@ public class LoginController {
 	 * @param password
 	 * @return
 	 */
-	public ModelAndView personalInterfacecustom(String loginId, String password) {
+	public ModelAndView personalInterfacecustom(String userLoginId, String password) {
 		ModelAndView mav = new ModelAndView();
-		UserLogin userLogin = userLoginService.findUserByLoginId(loginId, password);
+		UserLogin userLogin = userLoginService.findUserByLoginId(userLoginId, password);
 		List<Product> productList = productService.findProductsByStatus("出品中");
 		mav.addObject("userLogin", userLogin);
 		mav.addObject("password", password);
@@ -143,7 +160,7 @@ public class LoginController {
 		return mav;
 	}
 
-	/**カートに入る
+	/**カートに入れる
 	 * @param productId
 	 * @param userId
 	 * @return
@@ -153,6 +170,7 @@ public class LoginController {
 			@RequestParam(name = "productId") Integer productId,
 			@RequestParam(name = "userId") Integer userId) {
 		ModelAndView mav = new ModelAndView();
+		Cart cart = new Cart();
 		Product product = productService.findProductById(productId);
 		//商品のアクセス数を加算する
 		Integer i = product.getAccessNumber();
@@ -161,18 +179,35 @@ public class LoginController {
 		List<Cart> cartList = cartService.fingCartById(userId);
 		//同じユーザーのカート内商品数が１以上あれば
 		if (cartList.size() > 0) {
+			cart = cartService.findCartByPid(productId);
+			if (cart != null) {
+				cart.setNumber(cart.getNumber() + 1);
+				cartService.save(cart);
+			} else {
+				//				Product product2 = productService.findProductById(productId);
+				Cart cart2 = new Cart();
+				cart2.setpId(product.getId());
+				cart2.setuId(userId);
+				cart2.setProductType(product.getProductType());
+				cart2.setProductIntro(product.getProductIntro());
+				cart2.setSales(product.getSales());
+				cart2.setNumber(1);
+				cartService.save(cart2);
+			}
+			cartList = cartService.fingCartById(userId);
 			mav.addObject("cartList", cartList);
 			mav.addObject("userId", userId);
 			mav.setViewName("basket");
 			return mav;
 			//なければ、追加し表示
 		} else {
-			Cart cart = new Cart();
+			//			Cart cart = new Cart();
 			cart.setpId(product.getId());
 			cart.setuId(userId);
 			cart.setProductType(product.getProductType());
 			cart.setProductIntro(product.getProductIntro());
 			cart.setSales(product.getSales());
+			cart.setNumber(1);
 			cartService.save(cart);
 			cartList = cartService.fingCartById(userId);
 			mav.addObject("cartList", cartList);
@@ -180,6 +215,15 @@ public class LoginController {
 			mav.setViewName("basket");
 			return mav;
 		}
+	}
+
+	@RequestMapping("/delectCartItem")
+	public String delectCartItem(Model model,
+			@RequestParam(name = "productId") Integer productId,
+			@RequestParam(name = "userId") Integer userId) {
+		//個人のカート内容の特定商品を削除
+		cartService.deleteByProductIdAndUserId(productId,userId);
+		return "redirect:/intoBasket?userId="+userId;
 	}
 
 	/**カートをクリックで一覧を表示
@@ -221,14 +265,15 @@ public class LoginController {
 	public String buyProcess(Model model,
 			@RequestParam(name = "productId") Integer productId,
 			@RequestParam(name = "userId") Integer userId,
-			@RequestParam(name = "sales") Double sales) {
-		List<Cart> cartList = cartService.fingCartById(userId);
+			@RequestParam(name = "sales") Double sales,
+			@RequestParam(name = "number") Integer number
+			) {
+		//userIdで特定の商品を取得
+		Cart cart = cartService.findByProductIdAndUserId(productId,userId);
+		model.addAttribute("cart", cart);
+		/*List<Cart> cartList = cartService.fingCartById(userId);
 		for (Cart cart : cartList) {
-			model.addAttribute("cart", cart);
-
-		}
-		//		Product product = productService.findProductById(productId);
-		//		model.addAttribute("product",product);
+		}*/
 		return "buyProduct";
 	}
 

@@ -29,17 +29,22 @@ public class CartService {
 		return cartRepositroy.fingCartById(userId);
 	}
 
-	public Boolean findCartByPid(Integer pId) {
-		Boolean flog = false;
-		Cart cart = cartRepositroy.findCartByPid(pId);
-		if(cart != null) {
-			flog=true;
-		}
-		return flog;
+	public Cart findCartByPid(Integer pId) {
+		return cartRepositroy.findCartByPid(pId);
 	}
 
 	public String deleteByProductId(Integer productId) {
 		cartRepositroy.deleteByProductId(productId);
 		return "";
+	}
+
+	//個人のカート内容の特定商品を削除
+	public void deleteByProductIdAndUserId(Integer productId, Integer userId) {
+		cartRepositroy.deleteByProductIdAndUserId(productId,userId);
+	}
+
+	//userIdで特定の商品を取得
+	public Cart findByProductIdAndUserId(Integer productId, Integer userId) {
+		return cartRepositroy.findByProductIdAndUserId(productId,userId);
 	}
 }

@@ -1,69 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
-		<title></title>
-	</head>
-	<body>
-		<h2 align="center">ユーザー情報編集</h2>
-		<form action="editUser" method="post" enctype="multipart/form-data">
-		<input type="text" name="userId" th:value="${userinfo.id}">
-			<table align="center" border="1px">
-				<tr>
-					<td>写真選択</td>
-					<td><input type="file" name="photo" enctype="multipart/form-data" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png"></td>
-				</tr>
-				<tr>
-					<td>ユーザー名</td>
-					<td><input type="text" disabled th:value="${userinfo.userName}"></td>
-				</tr>
-				<tr>
-					<td>ニックネーム</td>
-					<td><input type="text" disabled th:value="${userinfo.userNickname}"></td>
-				</tr>
-				<tr>
-					<td>電話番号</td>
-					<td><input type="text" name="tel" th:value="${userinfo.tel}"></td>
-				</tr>
-				<tr>
-					<td>メールアドレス</td>
-					<td><input type="email" name="email" th:value="${userinfo.email}"></td>
-				</tr>
-				<!--<tr>
+<head>
+<meta http-equiv="Content-Type"
+	content="multipart/form-data; charset=utf-8" />
+<title></title>
+<style type="text/css">
+span {
+	color: red;
+	font-size: 12px;
+}
+</style>
+</head>
+<body>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			//パスワード
+			var pwdErrorSpan = document.getElementById("pwdError");
+			var password2Elt = document.getElementById("password2");
+			password2Elt.onblur = function() {
+				var password1Elt = document.getElementById("password1");
+				var password1 = password1Elt.value;
+				var password2 = password2Elt.value;
+				if (password1 != password2) {
+					pwdErrorSpan.innerText = "パスワード不一致";
+				}
+			}
+			password2Elt.onfocus = function() {
+				if (pwdErrorSpan.innerText != "") {
+					password2Elt.value = "";
+				}
+				pwdErrorSpan.innerText = "";
+			}
+		}
+	</script>
+	<h2 align="center">ユーザー情報編集</h2>
+	<form action="editUser" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="userId" th:value="${userinfo.id}">
+		<table align="center" border="1px">
+			<tr>
+				<td>写真選択</td>
+				<td><input type="file" name="photo"
+					enctype="multipart/form-data"
+					accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png"></td>
+			</tr>
+			<tr>
+				<td>ユーザー名</td>
+				<td><input type="text" disabled th:value="${userinfo.userName}"></td>
+			</tr>
+			<tr>
+				<td>ニックネーム</td>
+				<td><input type="text" disabled
+					th:value="${userinfo.userNickname}"></td>
+			</tr>
+			<tr>
+				<td>電話番号</td>
+				<td><input type="text" name="tel" th:value="${userinfo.tel}"></td>
+			</tr>
+			<tr>
+				<td>メールアドレス</td>
+				<td><input type="email" name="email"
+					th:value="${userinfo.email}"></td>
+			</tr>
+			<!--<tr>
 					<td>性別</td>
 					<td><input type="text" name="sex"></td>
 				</tr>-->
-				<tr>
-					<td>住所</td>
-					<td><input type="text" name="address" th:value="${userinfo.address}"></td>
-				</tr>
-				<tr>
-					<td>状態</td>
-					<td>
-						<!-- 状態 -->
-						<select name="status">
-							<!-- <option disabled selected hidden>選択...</option> -->
-							<option>使用中</option>
-							<option>使用停止</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
+			<tr>
+				<td>住所</td>
+				<td><input type="text" name="address"
+					th:value="${userinfo.address}"></td>
+			</tr>
+			<tr>
+				<td>状態</td>
+				<td>
+					<!-- 状態 --> <select name="status">
+						<!-- <option disabled selected hidden>選択...</option> -->
+						<option>使用中</option>
+						<option>使用停止</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td>パスワード</td>
+				<td><input type="password" name="password" id="password1"></td>
+			</tr>
+			<tr>
+				<td>パスワード確認</td>
+				<td>
+					<div>
+						<span id="pwdError"></span>
+					</div>
+					<div>
+						<input type="password" id="password2">
+					</div>
+				</td>
+			</tr>
+			<!-- <tr>
 					<td>パスワード</td>
 					<td><input type="password" name="password"></td>
 				</tr>
 				<tr>
 					<td>パスワード確認</td>
 					<td><input type="password" ></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-						<a th:href="@{backUserAll(str=${'menu'})}"><input type="button" value="戻る"></a>
-						<input type="submit" value="保存">
-						<input type="reset" value="リセット">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</body>
+				</tr> -->
+			<tr>
+				<td colspan="2" align="center"><a
+					th:href="@{backUserAll(str=${'menu'})}"><input type="button"
+						value="戻る"></a> <input type="submit" value="保存"> <input
+					type="reset" value="リセット"></td>
+			</tr>
+		</table>
+	</form>
+</body>
 </html>
