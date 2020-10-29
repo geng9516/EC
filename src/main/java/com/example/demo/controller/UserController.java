@@ -159,7 +159,7 @@ public class UserController {
 			@RequestParam(name = "tel") String tel,
 			@RequestParam(name = "email") String email,
 			@RequestParam(name = "address") String address,
-			@RequestParam(name = "status") String status,
+//			@RequestParam(name = "status") String status,
 			@RequestParam(name = "password") String password) {
 		Userinfo userinfo = userinfoService.findUser(userId);
 		if (!photo.isEmpty()) {
@@ -182,9 +182,9 @@ public class UserController {
 		if (!password.isEmpty()) {
 			userinfo.getUserLogin().setPass(password);
 		}
-		if (status != null) {
-			userinfo.setStatus(status);
-		}
+//		if (status != null) {
+//			userinfo.setStatus(status);
+//		}
 		//userinfoとuserLoginを関連つける
 		userinfoService.saveUserinfo(userinfo);
 		//引数にmenuが必要

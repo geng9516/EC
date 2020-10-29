@@ -91,6 +91,9 @@ public class LoginController {
 				if ("使用中".equals(status)) {
 					mav = personalInterfacecustom(loginId, password);
 					mav.setViewName("personalInterfacecustom");
+				}else {
+					mav.addObject("error", "ユーザーいません");
+					mav.setViewName("error");
 				}
 			} else {
 				mav.addObject("error", "ユーザーいません");
@@ -109,11 +112,15 @@ public class LoginController {
 			@RequestParam(name = "text") String text) {
 		//LoginIdでuserLoginを取得
 		UserLogin userLogin = userLoginService.findUserLoginByLoginId(userLoginId);
-		System.out.println(userLogin);
-		List<Product> productList = productService.findAllProductByAnything(text);
-		System.out.println(productList);
-		model.addAttribute("userLogin", userLogin);
-		model.addAttribute("productList", productList);
+		if(!text.isEmpty()) {
+			List<Product> productList = productService.findAllProductByAnything(text);
+			model.addAttribute("userLogin", userLogin);
+			model.addAttribute("productList", productList);
+		}else {
+			List<Product> productList = productService.findProductsByStatus("出品中");
+			model.addAttribute("userLogin", userLogin);
+			model.addAttribute("productList", productList);
+		}
 		return "personalInterfacecustom";
 	}
 
@@ -166,10 +173,10 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping("/basketIn")
-	public ModelAndView basketIn(
+	public String basketIn(
 			@RequestParam(name = "productId") Integer productId,
 			@RequestParam(name = "userId") Integer userId) {
-		ModelAndView mav = new ModelAndView();
+//		ModelAndView mav = new ModelAndView();
 		Cart cart = new Cart();
 		Product product = productService.findProductById(productId);
 		//商品のアクセス数を加算する
@@ -194,14 +201,13 @@ public class LoginController {
 				cart2.setNumber(1);
 				cartService.save(cart2);
 			}
-			cartList = cartService.fingCartById(userId);
-			mav.addObject("cartList", cartList);
-			mav.addObject("userId", userId);
-			mav.setViewName("basket");
-			return mav;
+//			cartList = cartService.fingCartById(userId);
+//			mav.addObject("cartList", cartList);
+//			mav.addObject("userId", userId);
+//			mav.setViewName("basket");
+//			return mav;
 			//なければ、追加し表示
 		} else {
-			//			Cart cart = new Cart();
 			cart.setpId(product.getId());
 			cart.setuId(userId);
 			cart.setProductType(product.getProductType());
@@ -210,11 +216,12 @@ public class LoginController {
 			cart.setNumber(1);
 			cartService.save(cart);
 			cartList = cartService.fingCartById(userId);
-			mav.addObject("cartList", cartList);
-			mav.addObject("userId", userId);
-			mav.setViewName("basket");
-			return mav;
+//			mav.addObject("cartList", cartList);
+//			mav.addObject("userId", userId);
+//			mav.setViewName("basket");
+//			return mav;
 		}
+		return "redirect:/backPerson?userId="+userId;
 	}
 
 	@RequestMapping("/delectCartItem")

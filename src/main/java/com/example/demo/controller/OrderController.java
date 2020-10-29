@@ -29,7 +29,11 @@ public class OrderController {
 	 */
 	@RequestMapping("/orderAll")
 	public String orderAll(Model model) {
+
 		List<Order> orderList = orderService.findAllOrders();
+		for(Order order:orderList) {
+			System.out.println(order.getUser());
+		}
 		model.addAttribute("orderList", orderList);
 		return "orderAll";
 	}

@@ -9,12 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.entity.Characters;
 import com.example.demo.service.CharacterService;
-
+@ApplicationScope
 @Controller
 public class CharacterController {
 
@@ -41,7 +42,6 @@ public class CharacterController {
 	public RedirectView CharacterDelete(
 			@RequestParam(name = "characterId") Integer characterId) {
 		RedirectView redirectTarget = new RedirectView();
-//		characterService.deleteCharacterByCharacterName(characterId);
 		Characters character = characterService.findbyCharacterId(characterId);
 		character.setStatusByCharacter("使用停止");
 		characterService.saveCharacter(character);

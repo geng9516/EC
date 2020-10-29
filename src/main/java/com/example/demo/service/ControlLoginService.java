@@ -16,6 +16,7 @@ public class ControlLoginService {
 	@Autowired
 	ControlLoginRepository controlLoginRepository;
 
+	//@Transactional 也可以
 	public List<ControlLogin> findAllCharacter_login() {
 		return controlLoginRepository.findAll();
 	}
