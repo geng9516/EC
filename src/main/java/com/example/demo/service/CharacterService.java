@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -18,27 +17,32 @@ public class CharacterService {
 	@Autowired
 	CharacterRepository characterRepository;
 
-	public List<Characters> findAllCharacter(){
+	//すべてのデータを取得
+	public List<Characters> findAllCharacter() {
 		return characterRepository.findAll();
 	}
 
-	public String deleteCharacterByCharacterName(Integer characterId) {
-		characterRepository.deleteCharacterByCharacterName(characterId);
+	//IDでデータを削除
+	/*public String deleteCharacterByCharacterName(Integer characterId) {
+		characterRepository.deleteCharacterByCharacterId(characterId);
 		return "成功";
-	}
+	}*/
 
+	//データ保存
 	public String saveCharacter(Characters character) {
 		characterRepository.save(character);
 		return "";
 	}
 
-	public String editChatacter(String characterName,String status,Timestamp timestamp) {
-		characterRepository.setCharacterById(characterName,status,timestamp);
+	//データ編集
+	public String editChatacter(String characterName, String status, Timestamp timestamp) {
+		characterRepository.setCharacterById(characterName, status, timestamp);
 		return "";
 	}
 
-	public Characters findbyCharacterId(Integer characterName) {
-		return characterRepository.findbyCharacterId(characterName);
+	//IDで検索
+	public Characters findbyCharacterId(Integer characterId) {
+		return characterRepository.findbyCharacterId(characterId);
 	}
 
 }

@@ -22,8 +22,8 @@ public class UserinfoService {
 	}
 
 	//id検索
-	public Userinfo findUser(Integer userId) {
-		return userinfoRepository.findByUserId(userId);
+	public Userinfo findUser(Integer id) {
+		return userinfoRepository.findByUserId(id);
 	}
 
 	//保存

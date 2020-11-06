@@ -64,9 +64,9 @@ public class ProductService {
 	}
 
 	//価格で曖昧検索(使ってない)
-	public List<Product> findAllBySales(Double sales1) {
-		return productRepository.findAllBySales(sales1);
-	}
+//	public List<Product> findAllBySales(Double sales1) {
+//		return productRepository.findAllBySales(sales1);
+//	}
 
 	//sales1とsales2間の価格検索
 	public List<Product> findAllByBetweenSales1AndSales2(Double sales1, Double sales2) {

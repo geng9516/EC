@@ -18,7 +18,6 @@ public class ControlService {
 	ControlRepository controlRepository;
 
 	public List<Control> findAllControls(){
-
 		return controlRepository.findAll();
 	}
 
@@ -27,14 +26,13 @@ public class ControlService {
 		return "";
 	}
 
-	public String deleteControlbyControlName(Integer controlName) {
-		controlRepository.deleteControlbyControlName(controlName);
+	public String deleteControlbyControlId(Integer controlId) {
+		controlRepository.deleteControlbyControlId(controlId);
 		return "";
 	}
 
 	//IdでControlユーザーを取得
 	public Control findControlByControlId(Integer controlId) {
-
 		return controlRepository.findControlByControlId(controlId);
 	}
 

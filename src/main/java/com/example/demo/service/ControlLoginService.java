@@ -16,8 +16,7 @@ public class ControlLoginService {
 	@Autowired
 	ControlLoginRepository controlLoginRepository;
 
-	//@Transactional 也可以
-	public List<ControlLogin> findAllCharacter_login() {
+	public List<ControlLogin> findAllControlLogin() {
 		return controlLoginRepository.findAll();
 	}
 
@@ -40,17 +39,19 @@ public class ControlLoginService {
 		return controlLoginRepository.findExistLoginUser(loginId, password);
 	}
 
+	//シーケンスIDで検索
 	public ControlLogin findControlLoginById(Integer controlLoginId) {
 		return controlLoginRepository.findControlLoginById(controlLoginId);
 	}
 
+	//削除
 	public String deleteControlLogin(ControlLogin controlLogin) {
 		controlLoginRepository.delete(controlLogin);
 		return "";
 	}
 
-	public String updateCotrolByid(Integer controlLoginId, String password) {
-		controlLoginRepository.updateCotrolByid(controlLoginId, password);
+	public String updateCotrolByid(Integer id, String password) {
+		controlLoginRepository.updateCotrolByid(id, password);
 		return "";
 	}
 

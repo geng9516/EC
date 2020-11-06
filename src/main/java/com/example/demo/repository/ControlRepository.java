@@ -12,7 +12,7 @@ public interface ControlRepository extends JpaRepository<Control,Integer>{
 
 	@Modifying
 	@Query("delete from Control c where c.id=?1")
-	void deleteControlbyControlName(Integer controlId);
+	void deleteControlbyControlId(Integer controlId);
 
 	//IdでControlユーザーを取得
 	@Query("select c from Control c where c.id=?1")

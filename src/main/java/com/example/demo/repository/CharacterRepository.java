@@ -21,5 +21,5 @@ public interface CharacterRepository extends JpaRepository<Characters, Integer> 
 
 	@Modifying
 	@Query("delete from Characters c where c.id=?1")
-	void deleteCharacterByCharacterName(Integer characterName);
+	void deleteCharacterByCharacterName(Integer characterId);
 }
