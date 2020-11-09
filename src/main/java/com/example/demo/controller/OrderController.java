@@ -120,6 +120,7 @@ public class OrderController {
 	public RedirectView deleteOrder(
 			@RequestParam(name = "orderId") String orderId) {
 		Order order = orderService.findOrderByOrderId(orderId);
+		
 		orderService.deleteOrder(order);
 		RedirectView redirectTarget = new RedirectView();
 		redirectTarget.setUrl("orderAll");

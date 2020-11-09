@@ -16,10 +16,12 @@ public class CartService {
 	@Autowired
 	private CartRepositroy cartRepositroy;
 
+	//カート内すべての商品を取得
 	public List<Cart> fingCartAll() {
 		return cartRepositroy.findAll();
 	}
 
+	//新規保存
 	public String save(Cart cart) {
 		cartRepositroy.save(cart);
 		return "";

@@ -18,7 +18,6 @@ public class OrderService {
 
 	//orderをすべて検索
 	public List<Order> findAllOrders() {
-
 		return orderRepository.findAll();
 	}
 
