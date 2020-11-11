@@ -184,7 +184,7 @@ public class LoginController {
 		Integer i = product.getAccessNumber();
 		product.setAccessNumber(Integer.valueOf(i) + 1);
 		productService.save(product);
-		List<Cart> cartList = cartService.fingCartById(userId);
+		List<Cart> cartList = cartService.findCartById(userId);
 		//同じユーザーのカート内商品数が１以上あれば
 		if (cartList.size() > 0) {
 			cart = cartService.findCartByPid(productId);
@@ -209,7 +209,7 @@ public class LoginController {
 			cart.setSales(product.getSales());
 			cart.setNumber(1);
 			cartService.save(cart);
-			cartList = cartService.fingCartById(userId);
+			cartList = cartService.findCartById(userId);
 		}
 		return "redirect:/backPerson?userId=" + userId;
 	}
@@ -232,7 +232,7 @@ public class LoginController {
 	@RequestMapping("/intoBasket")
 	public String intoBasket(Model model,
 			@RequestParam(name = "userId") Integer userId) {
-		List<Cart> cartList = cartService.fingCartById(userId);
+		List<Cart> cartList = cartService.findCartById(userId);
 		model.addAttribute("cartList", cartList);
 		model.addAttribute("userId", userId);
 		return "basket";
@@ -315,7 +315,7 @@ public class LoginController {
 		productService.save(product);
 		//カートの支払済商品をマイナス
 		cartService.deleteByProductId(productId);
-		List<Cart> cartList = cartService.fingCartById(Integer.valueOf(userId));
+		List<Cart> cartList = cartService.findCartById(Integer.valueOf(userId));
 		model.addAttribute("cartList", cartList);
 		model.addAttribute("userId", userId);
 		return "basket";

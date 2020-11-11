@@ -17,7 +17,7 @@ public class CartService {
 	private CartRepositroy cartRepositroy;
 
 	//カート内すべての商品を取得
-	public List<Cart> fingCartAll() {
+	public List<Cart> findCartAll() {
 		return cartRepositroy.findAll();
 	}
 
@@ -27,7 +27,7 @@ public class CartService {
 		return "";
 	}
 
-	public List<Cart> fingCartById(Integer userId) {
+	public List<Cart> findCartById(Integer userId) {
 		return cartRepositroy.fingCartById(userId);
 	}
 
